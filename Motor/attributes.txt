@@ -1,0 +1,4 @@
+xgatt_dis_2a25 12
+xgatt_hrs_2a37 15
+xgatt_pot 19
+pot_alert 23

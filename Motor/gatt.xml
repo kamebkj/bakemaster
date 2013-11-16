@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<configuration>
+
+    <service uuid="1800">
+      <description>Generic Access Profile</description>
+
+      <characteristic uuid="2a00">
+        <properties read="true" const="true" />
+        <value>Potentiometer Demo</value>
+      </characteristic>
+
+      <characteristic uuid="2a01">
+        <properties read="true" const="true" />
+        <value type="hex">0832</value>
+      </characteristic>
+	  
+    </service>
+
+    <service uuid="180A" >
+	
+        <characteristic uuid="2A29">
+            <properties read="true" const="true" />
+            <value>Bluegiga</value>
+        </characteristic>
+		
+        <characteristic uuid="2A24">
+            <properties read="true" const="true" />
+            <value>BLE11x</value>
+        </characteristic>
+		
+		<characteristic uuid="2A25" id="xgatt_dis_2a25" >
+			<properties read="true" />
+            <value type="hex" length="6" />
+        </characteristic>	
+		
+    </service>
+
+    <service uuid="180d" advertise="true">
+	
+       <description>HR demo</description>
+
+      <characteristic uuid="2a37" id="xgatt_hrs_2a37">
+          <properties notify="true" />
+          <value length="2">33</value>
+      </characteristic>
+	  
+    </service>
+	
+    <service uuid="DA588615-01FC-4A86-949A-CA8DE10607C5" advertise="true">
+	
+       <description>Pot</description>
+
+      <characteristic uuid="C3BAD76C-A2B5-4B30-B7AE-74BF35B97651" id="xgatt_pot">
+          <description>pot value</description>
+		  <properties notify="true" />
+          <value length="2" />
+      </characteristic>
+	  
+	  <characteristic uuid="C3BAD76C-A2B5-4B30-B7AE-74BF35B97652" id="pot_alert">
+          <description>alert value</description>
+		  <properties notify="true" write="true" />
+          <value length="1" />
+      </characteristic>
+	  
+    </service>
+</configuration>

@@ -1,0 +1,44 @@
+#declare buffer for building attribute value
+dim tmp(2)
+dim voltage
+
+
+event system_boot(major,minor,patch,build,ll_version,protocol,hw)
+    call gap_set_mode(gap_general_discoverable,gap_undirected_connectable)
+    #timer at every second repeating
+    call hardware_set_soft_timer(3276,1,0)
+	call hardware_io_port_config_direction(1, $F) # (port,mask)
+	call hardware_io_port_write(1, $F, 0) # (port,mask,data)
+end
+
+
+event hardware_soft_timer(handle)
+	call hardware_adc_read(4,3,2) # (port,3=12bit,2=ADCC)
+end
+
+event attributes_value(connection ,reason ,handle ,offset ,value_len, value)
+	if value(0:1)=$10 then
+		call hardware_io_port_write(1, $8, $8)
+	else
+		call hardware_io_port_write(1, $8, 0)
+		call hardware_io_port_write(1, $4, 0)
+	end if
+	
+	if value(0:1)=$11 then
+		call hardware_io_port_write(1, $4, $4)
+	else
+		call hardware_io_port_write(1, $8, 0)
+		call hardware_io_port_write(1, $4, 0)
+	end if
+end
+
+event hardware_adc_result(input,value)
+    voltage=value/8
+	tmp(0:2)=voltage # 0~4096
+	call attributes_write(xgatt_pot,0,2,tmp(0:2))
+end
+
+event connection_disconnected(handle,result)
+    #start advertising again after disconnection
+    call gap_set_mode(gap_general_discoverable,gap_undirected_connectable)
+end
