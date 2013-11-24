@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		0E3C8FB9163EBF82004841B3 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0E3C8FB8163EBF82004841B3 /* Default-568h@2x.png */; };
+		7EDF496F18382DFC00185B42 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7EDF496E18382DFC00185B42 /* AVFoundation.framework */; };
+		7EDF497118382E3400185B42 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7EDF497018382E3400185B42 /* CoreMedia.framework */; };
+		7EDF497318382E5A00185B42 /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7EDF497218382E5A00185B42 /* ImageIO.framework */; };
 		CF30184915A6BE7600712F9F /* 57x57.png in Resources */ = {isa = PBXBuildFile; fileRef = CF30184715A6BE7600712F9F /* 57x57.png */; };
 		CF30184A15A6BE7600712F9F /* 114x114.png in Resources */ = {isa = PBXBuildFile; fileRef = CF30184815A6BE7600712F9F /* 114x114.png */; };
 		CF34B40A15CFE1C900640DFB /* cr_arrow_left.png in Resources */ = {isa = PBXBuildFile; fileRef = CF34B40715CFE1C900640DFB /* cr_arrow_left.png */; };
@@ -45,6 +48,9 @@
 
 /* Begin PBXFileReference section */
 		0E3C8FB8163EBF82004841B3 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
+		7EDF496E18382DFC00185B42 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		7EDF497018382E3400185B42 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
+		7EDF497218382E5A00185B42 /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
 		CF30184715A6BE7600712F9F /* 57x57.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = 57x57.png; path = ../57x57.png; sourceTree = "<group>"; };
 		CF30184815A6BE7600712F9F /* 114x114.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = 114x114.png; path = ../114x114.png; sourceTree = "<group>"; };
 		CF34B40715CFE1C900640DFB /* cr_arrow_left.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cr_arrow_left.png; sourceTree = "<group>"; };
@@ -84,6 +90,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7EDF497318382E5A00185B42 /* ImageIO.framework in Frameworks */,
+				7EDF497118382E3400185B42 /* CoreMedia.framework in Frameworks */,
+				7EDF496F18382DFC00185B42 /* AVFoundation.framework in Frameworks */,
 				CF710816146ADD6600FEAD90 /* QuartzCore.framework in Frameworks */,
 				CFAD290D146817CE00DE9B23 /* CoreBluetooth.framework in Frameworks */,
 				CFAD28C9146812F500DE9B23 /* UIKit.framework in Frameworks */,
@@ -108,6 +117,9 @@
 		CFAD28B9146812F500DE9B23 = {
 			isa = PBXGroup;
 			children = (
+				7EDF497218382E5A00185B42 /* ImageIO.framework */,
+				7EDF497018382E3400185B42 /* CoreMedia.framework */,
+				7EDF496E18382DFC00185B42 /* AVFoundation.framework */,
 				0E3C8FB8163EBF82004841B3 /* Default-568h@2x.png */,
 				CFAD28CE146812F500DE9B23 /* bletest */,
 				CFAD28EF146812F500DE9B23 /* bletestTests */,

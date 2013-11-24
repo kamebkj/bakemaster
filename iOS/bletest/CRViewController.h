@@ -32,8 +32,25 @@
     CBCharacteristic *cr_characteristic;
     CBCharacteristic *pot_characteristic;
     CBCharacteristic *alert_characteristic;
+    
+    CBCharacteristic *acc_x_characteristic;
+    CBCharacteristic *acc_y_characteristic;
+    CBCharacteristic *acc_z_characteristic;
+    
+    CBCharacteristic *btn_play_characteristic;
+    CBCharacteristic *btn_prev_characteristic;
+    CBCharacteristic *btn_next_characteristic;
+    
     __weak IBOutlet UITextView *helloText;
     __weak IBOutlet UITextView *textRx;
+    __weak IBOutlet UITextView *textAcceX;
+    __weak IBOutlet UITextView *textAcceY;
+    __weak IBOutlet UITextView *textAcceZ;
+    __weak IBOutlet UITextView *textBtnPlay;
+    __weak IBOutlet UITextView *textBtnPrev;
+    __weak IBOutlet UITextView *textBtnNext;
+    
+    
     __weak IBOutlet UIImageView *arrowTx;
     __weak IBOutlet UIImageView *arrowRx;
     

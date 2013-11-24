@@ -54,6 +54,13 @@
 {
     helloText = nil;
     textRx = nil;
+    textAcceX = nil;
+    textAcceY = nil;
+    textAcceZ = nil;
+    textBtnPlay = nil;
+    textBtnNext = nil;
+    textBtnPrev = nil;
+    
     arrowTx = nil;
     arrowRx = nil;
     [super viewDidUnload];
@@ -72,11 +79,27 @@
     cr_characteristic=nil;
     pot_characteristic=nil;
     alert_characteristic=nil;
+    acc_x_characteristic = nil;
+    acc_y_characteristic = nil;
+    acc_z_characteristic = nil;
+    btn_play_characteristic = nil;
+    btn_prev_characteristic = nil;
+    btn_next_characteristic = nil;
+    
     [_peripheral setDelegate:self];
     
+    // 1,2: weight, ?
+    // 3,4,5: x,y,z
+    // 6,7,8: play,prev,next
     [_peripheral discoverCharacteristics:[NSArray arrayWithObjects:
                                           [CBUUID UUIDWithString:@"c3bad76c-a2b5-4b30-b7ae-74bf35b97651"],
-                                          [CBUUID UUIDWithString:@"c3bad76c-a2b5-4b30-b7ae-74bf35b97652"], nil] forService:ser];
+                                          [CBUUID UUIDWithString:@"c3bad76c-a2b5-4b30-b7ae-74bf35b97652"],
+                                          [CBUUID UUIDWithString:@"c3bad76c-a2b5-4b30-b7ae-74bf35b97653"],
+                                          [CBUUID UUIDWithString:@"c3bad76c-a2b5-4b30-b7ae-74bf35b97654"],
+                                          [CBUUID UUIDWithString:@"c3bad76c-a2b5-4b30-b7ae-74bf35b97655"],
+                                          [CBUUID UUIDWithString:@"c3bad76c-a2b5-4b30-b7ae-74bf35b97656"],
+                                          [CBUUID UUIDWithString:@"c3bad76c-a2b5-4b30-b7ae-74bf35b97657"],
+                                          [CBUUID UUIDWithString:@"c3bad76c-a2b5-4b30-b7ae-74bf35b97658"],nil] forService:ser];
     
 }
 - (void)viewWillDisappear:(BOOL)animated
@@ -93,16 +116,41 @@
     }
     
     NSEnumerator *e = [service.characteristics objectEnumerator];
-    for (int i=0; i<2; i++) {
+    for (int i=0; i<8; i++) {
         if ( (cr_characteristic = [e nextObject]) ) {
             if (i==0) {
                 pot_characteristic = cr_characteristic;
                 [peripheral setNotifyValue:YES forCharacteristic: pot_characteristic];
             }
-            else {
+            else if (i==1) {
                 alert_characteristic = cr_characteristic;
                 [peripheral setNotifyValue:YES forCharacteristic: alert_characteristic];
             }
+            else if (i==2) {
+                acc_x_characteristic = cr_characteristic;
+                [peripheral setNotifyValue:YES forCharacteristic: acc_x_characteristic];
+            }
+            else if (i==3) {
+                acc_y_characteristic = cr_characteristic;
+                [peripheral setNotifyValue:YES forCharacteristic: acc_y_characteristic];
+            }
+            else if (i==4) {
+                acc_z_characteristic = cr_characteristic;
+                [peripheral setNotifyValue:YES forCharacteristic: acc_z_characteristic];
+            }
+            else if (i==5) {
+                btn_play_characteristic = cr_characteristic;
+                [peripheral setNotifyValue:YES forCharacteristic: btn_play_characteristic];
+            }
+            else if (i==6) {
+                btn_prev_characteristic = cr_characteristic;
+                [peripheral setNotifyValue:YES forCharacteristic: btn_prev_characteristic];
+            }
+            else if (i==7) {
+                btn_next_characteristic = cr_characteristic;
+                [peripheral setNotifyValue:YES forCharacteristic: btn_next_characteristic];
+            }
+    
         }
     }
     
@@ -123,7 +171,13 @@
     while ( (service = [e nextObject]) ) {
         [_peripheral discoverCharacteristics:[NSArray arrayWithObjects:
                                               [CBUUID UUIDWithString:@"c3bad76c-a2b5-4b30-b7ae-74bf35b97651"],
-                                              [CBUUID UUIDWithString:@"c3bad76c-a2b5-4b30-b7ae-74bf35b97652"], nil] forService:service];
+                                              [CBUUID UUIDWithString:@"c3bad76c-a2b5-4b30-b7ae-74bf35b97652"],
+                                              [CBUUID UUIDWithString:@"c3bad76c-a2b5-4b30-b7ae-74bf35b97653"],
+                                              [CBUUID UUIDWithString:@"c3bad76c-a2b5-4b30-b7ae-74bf35b97654"],
+                                              [CBUUID UUIDWithString:@"c3bad76c-a2b5-4b30-b7ae-74bf35b97655"],
+                                              [CBUUID UUIDWithString:@"c3bad76c-a2b5-4b30-b7ae-74bf35b97656"],
+                                              [CBUUID UUIDWithString:@"c3bad76c-a2b5-4b30-b7ae-74bf35b97657"],
+                                              [CBUUID UUIDWithString:@"c3bad76c-a2b5-4b30-b7ae-74bf35b97658"],nil] forService:service];
     }
 }
 
@@ -161,7 +215,104 @@
     else if (characteristic == alert_characteristic) {
 
     }
-
+    else if (characteristic == acc_x_characteristic) {
+        char buffer[32];
+        int len=characteristic.value.length;
+        memcpy(buffer,[characteristic.value bytes],len);
+        buffer[len]=0;
+        
+        NSString *bufferStr = [NSString stringWithFormat:@"%@", characteristic.value];
+        NSString *right = [bufferStr substringWithRange:NSMakeRange(1, 2)];
+        NSString *left = [bufferStr substringWithRange:NSMakeRange(3, 2)];
+        bufferStr = [NSString stringWithFormat:@"%@%@", left, right];
+        
+        NSScanner *scanner = [NSScanner scannerWithString:bufferStr];
+        unsigned int temp;
+        [scanner scanHexInt:&temp];
+        textAcceX.text = [NSString stringWithFormat:@"%d\n", temp];
+        
+    }
+    else if (characteristic == acc_y_characteristic) {
+        char buffer[32];
+        int len=characteristic.value.length;
+        memcpy(buffer,[characteristic.value bytes],len);
+        buffer[len]=0;
+        
+        NSString *bufferStr = [NSString stringWithFormat:@"%@", characteristic.value];
+        NSString *right = [bufferStr substringWithRange:NSMakeRange(1, 2)];
+        NSString *left = [bufferStr substringWithRange:NSMakeRange(3, 2)];
+        bufferStr = [NSString stringWithFormat:@"%@%@", left, right];
+        
+        NSScanner *scanner = [NSScanner scannerWithString:bufferStr];
+        unsigned int temp;
+        [scanner scanHexInt:&temp];
+        textAcceY.text = [NSString stringWithFormat:@"%d\n", temp];
+        
+    }
+    else if (characteristic == acc_z_characteristic) {
+        char buffer[32];
+        int len=characteristic.value.length;
+        memcpy(buffer,[characteristic.value bytes],len);
+        buffer[len]=0;
+        
+        NSString *bufferStr = [NSString stringWithFormat:@"%@", characteristic.value];
+        NSString *right = [bufferStr substringWithRange:NSMakeRange(1, 2)];
+        NSString *left = [bufferStr substringWithRange:NSMakeRange(3, 2)];
+        bufferStr = [NSString stringWithFormat:@"%@%@", left, right];
+        
+        NSScanner *scanner = [NSScanner scannerWithString:bufferStr];
+        unsigned int temp;
+        [scanner scanHexInt:&temp];
+        textAcceZ.text = [NSString stringWithFormat:@"%d\n", temp];
+    }
+    else if (characteristic == btn_play_characteristic) {
+        char buffer[32];
+        int len=characteristic.value.length;
+        memcpy(buffer,[characteristic.value bytes],len);
+        buffer[len]=0;
+        
+        NSString *bufferStr = [NSString stringWithFormat:@"%@", characteristic.value];
+        NSString *right = [bufferStr substringWithRange:NSMakeRange(1, 2)];
+        NSString *left = [bufferStr substringWithRange:NSMakeRange(3, 2)];
+        bufferStr = [NSString stringWithFormat:@"%@%@", left, right];
+        
+        NSScanner *scanner = [NSScanner scannerWithString:bufferStr];
+        unsigned int temp;
+        [scanner scanHexInt:&temp];
+        textBtnPlay.text = [NSString stringWithFormat:@"%d\n", temp];
+    }
+    else if (characteristic == btn_prev_characteristic) {
+        char buffer[32];
+        int len=characteristic.value.length;
+        memcpy(buffer,[characteristic.value bytes],len);
+        buffer[len]=0;
+        
+        NSString *bufferStr = [NSString stringWithFormat:@"%@", characteristic.value];
+        NSString *right = [bufferStr substringWithRange:NSMakeRange(1, 2)];
+        NSString *left = [bufferStr substringWithRange:NSMakeRange(3, 2)];
+        bufferStr = [NSString stringWithFormat:@"%@%@", left, right];
+        
+        NSScanner *scanner = [NSScanner scannerWithString:bufferStr];
+        unsigned int temp;
+        [scanner scanHexInt:&temp];
+        textBtnPrev.text = [NSString stringWithFormat:@"%d\n", temp];
+    }
+    else if (characteristic == btn_next_characteristic) {
+        char buffer[32];
+        int len=characteristic.value.length;
+        memcpy(buffer,[characteristic.value bytes],len);
+        buffer[len]=0;
+        
+        NSString *bufferStr = [NSString stringWithFormat:@"%@", characteristic.value];
+        NSString *right = [bufferStr substringWithRange:NSMakeRange(1, 2)];
+        NSString *left = [bufferStr substringWithRange:NSMakeRange(3, 2)];
+        bufferStr = [NSString stringWithFormat:@"%@%@", left, right];
+        
+        NSScanner *scanner = [NSScanner scannerWithString:bufferStr];
+        unsigned int temp;
+        [scanner scanHexInt:&temp];
+        textBtnNext.text = [NSString stringWithFormat:@"%d\n", temp];
+    }
 
 }
 
@@ -173,6 +324,12 @@
         cr_characteristic = nil;
         pot_characteristic = nil;
         alert_characteristic = nil;
+        acc_x_characteristic = nil;
+        acc_y_characteristic = nil;
+        acc_z_characteristic = nil;
+        btn_play_characteristic = nil;
+        btn_prev_characteristic = nil;
+        btn_next_characteristic = nil;
     }
     //[_peripheral readValueForCharacteristic:characteristic];
 }
@@ -205,6 +362,11 @@
     
     isOpen = TRUE;
     helloText.text = @"";
+    
+    //
+//    cameraViewController *cmVC = [self.storyboard instantiateViewControllerWithIdentifier:@"camera"];
+//    [self.navigationController pushViewController:cmVC animated:YES];
+    
 }
 
 - (IBAction)closeButton:(id)sender {
