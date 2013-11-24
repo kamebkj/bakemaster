@@ -1,4 +1,4 @@
-6
+60
 0:0	GAP_AD_FLAG_BREDR_NOT_SUPPORTED
 0:0	GAP_AD_FLAG_GENERAL_DISCOVERABLE
 0:0	GAP_AD_FLAG_LIMITED_DISCOVERABLE
@@ -58,7 +58,10 @@
 0:0	gap_scannable_connectable
 0:0	gap_undirected_connectable
 0:0	gap_user_data
+0:0	next_button
+0:0	play_button
 0:0	pot_alert
+0:0	prev_button
 0:0	sm_bonding_key_addr_public
 0:0	sm_bonding_key_addr_static
 0:0	sm_bonding_key_csrk
@@ -77,8 +80,26 @@
 0:0	system_endpoint_uart0
 0:0	system_endpoint_uart1
 0:0	system_endpoint_usb
+0:0	x_value
 0:0	xgatt_dis_2a25
 0:0	xgatt_hrs_2a37
 0:0	xgatt_pot
-0:2	tmp
-2:4	voltage
+0:0	y_value
+0:0	z_value
+0:2	weight
+2:2	xVal
+4:2	yVal
+6:2	zVal
+8:4	voltage
+12:4	voltageAverage
+16:4	loadA
+20:4	loadB
+24:4	voltageA
+28:4	voltageB
+32:4	load
+36:4	result
+40:4	port
+44:4	playButton
+48:4	prevButton
+52:4	nextButton
+56:4	data

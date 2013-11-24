@@ -29,8 +29,6 @@
 #import <QuartzCore/CAAnimation.h>
 #import <QuartzCore/CAMediaTimingFunction.h>
 
-#define ARROWDURATION 0.4
-
 @implementation CRViewController
 @synthesize peripheral = _peripheral;
 
@@ -47,7 +45,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	// Do any additional setup after loading the view.
     isOpen = YES;
 }
 - (void)viewDidUnload
@@ -60,12 +57,8 @@
     textBtnPlay = nil;
     textBtnNext = nil;
     textBtnPrev = nil;
-    
-    arrowTx = nil;
-    arrowRx = nil;
+
     [super viewDidUnload];
-    // Release any retained subviews of the main view.
-    // e.g. self.myOutlet = nil;
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -208,9 +201,7 @@
         else if (temp<1000 && isOpen==TRUE) {
             helloText.text = @"Night! Close the curtains.";
         }
-        
-//        textRx.text=[textRx.text stringByAppendingString:[NSString stringWithFormat:@"%d\n", temp]];
-//        [textRx scrollRectToVisible:CGRectMake(0, textRx.contentSize.height-textRx.frame.size.height, textRx.frame.size.width, textRx.frame.size.height) animated:NO];
+
     }
     else if (characteristic == alert_characteristic) {
 
@@ -342,18 +333,18 @@
 
 - (IBAction)openButton:(id)sender {
     //start animation on tx
-    
-    CABasicAnimation *pulseAnimation = [CABasicAnimation animationWithKeyPath:@"transform.translation.x"];
-    
-    pulseAnimation.toValue = [NSNumber numberWithInt:157];
-    pulseAnimation.fromValue = [NSNumber numberWithInt:0];
-    
-    pulseAnimation.duration = ARROWDURATION;
-    pulseAnimation.repeatCount = 1;
-    pulseAnimation.autoreverses = NO;
-    pulseAnimation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionLinear];
-    
-    [[arrowTx layer] addAnimation:pulseAnimation forKey:nil];
+//    
+//    CABasicAnimation *pulseAnimation = [CABasicAnimation animationWithKeyPath:@"transform.translation.x"];
+//    
+//    pulseAnimation.toValue = [NSNumber numberWithInt:157];
+//    pulseAnimation.fromValue = [NSNumber numberWithInt:0];
+//    
+//    pulseAnimation.duration = ARROWDURATION;
+//    pulseAnimation.repeatCount = 1;
+//    pulseAnimation.autoreverses = NO;
+//    pulseAnimation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionLinear];
+//    
+//    [[arrowTx layer] addAnimation:pulseAnimation forKey:nil];
     
     UInt8 s = 0x10;
     NSData *data=[NSData dataWithBytes:&s length:sizeof(s)];
@@ -371,18 +362,18 @@
 
 - (IBAction)closeButton:(id)sender {
     //start animation on tx
-    
-    CABasicAnimation *pulseAnimation = [CABasicAnimation animationWithKeyPath:@"transform.translation.x"];
-    
-    pulseAnimation.toValue = [NSNumber numberWithInt:157];
-    pulseAnimation.fromValue = [NSNumber numberWithInt:0];
-    
-    pulseAnimation.duration = ARROWDURATION;
-    pulseAnimation.repeatCount = 1;
-    pulseAnimation.autoreverses = NO;
-    pulseAnimation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionLinear];
-    
-    [[arrowTx layer] addAnimation:pulseAnimation forKey:nil];
+//    
+//    CABasicAnimation *pulseAnimation = [CABasicAnimation animationWithKeyPath:@"transform.translation.x"];
+//    
+//    pulseAnimation.toValue = [NSNumber numberWithInt:157];
+//    pulseAnimation.fromValue = [NSNumber numberWithInt:0];
+//    
+//    pulseAnimation.duration = ARROWDURATION;
+//    pulseAnimation.repeatCount = 1;
+//    pulseAnimation.autoreverses = NO;
+//    pulseAnimation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionLinear];
+//    
+//    [[arrowTx layer] addAnimation:pulseAnimation forKey:nil];
     
     UInt8 s = 0x11;
     NSData *data=[NSData dataWithBytes:&s length:sizeof(s)];

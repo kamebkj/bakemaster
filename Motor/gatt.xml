@@ -62,5 +62,41 @@
           <value length="1" />
       </characteristic>
 	  
+	  
+	  <characteristic uuid="C3BAD76C-A2B5-4B30-B7AE-74BF35B97653" id="x_value">
+          <description>x value</description>
+		  <properties notify="true" />
+          <value length="2" />
+      </characteristic>
+	  
+	  <characteristic uuid="C3BAD76C-A2B5-4B30-B7AE-74BF35B97654" id="y_value">
+          <description>y value</description>
+		  <properties notify="true" />
+          <value length="2" />
+      </characteristic>
+	  
+	  <characteristic uuid="C3BAD76C-A2B5-4B30-B7AE-74BF35B97655" id="z_value">
+          <description>z value</description>
+		  <properties notify="true" />
+          <value length="2" />
+      </characteristic>
+	  
+	  <characteristic uuid="C3BAD76C-A2B5-4B30-B7AE-74BF35B97656" id="play_button">
+          <description>play button</description>
+		  <properties notify="true" />
+          <value length="2" />
+      </characteristic>
+	  <characteristic uuid="C3BAD76C-A2B5-4B30-B7AE-74BF35B97657" id="prev_button">
+          <description>previous button</description>
+		  <properties notify="true" />
+          <value length="2" />
+      </characteristic>
+	  <characteristic uuid="C3BAD76C-A2B5-4B30-B7AE-74BF35B97658" id="next_button">
+          <description>next button</description>
+		  <properties notify="true" />
+          <value length="2" />
+      </characteristic>
+	  
+
     </service>
 </configuration>

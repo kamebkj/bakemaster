@@ -14,6 +14,7 @@
 @end
 
 @implementation RecipeViewController
+@synthesize ser;
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -67,6 +68,7 @@
     
     RecipeDetailViewController * recipeDetailVC=[self.storyboard instantiateViewControllerWithIdentifier:@"recipeDetailVC"];
     recipeDetailVC.titleName = [NSString stringWithFormat:@"%d", indexPath.row];
+    recipeDetailVC.ser = ser;
     [self.navigationController pushViewController:recipeDetailVC animated:YES];
     
     

@@ -1,41 +1,152 @@
 #declare buffer for building attribute value
-dim tmp(2)
-dim voltage
+dim weight(2)
+dim xVal(2)
+dim yVal(2)
+dim zVal(2)
 
+dim voltage
+dim voltageAverage
+dim loadA
+dim loadB
+dim voltageA
+dim voltageB
+dim load
+
+dim result
+dim port
+dim playButton
+dim prevButton
+dim nextButton
+
+dim data
 
 event system_boot(major,minor,patch,build,ll_version,protocol,hw)
     call gap_set_mode(gap_general_discoverable,gap_undirected_connectable)
     #timer at every second repeating
-    call hardware_set_soft_timer(3276,1,0)
-	call hardware_io_port_config_direction(1, $F) # (port,mask)
-	call hardware_io_port_write(1, $F, 0) # (port,mask,data)
+    #call hardware_set_soft_timer(32768,1,0)
+	call hardware_set_soft_timer(1638,1,0)
+
+	# Set 1_4, 1_5, 1_6 to LED output $10, $20, $40
+	#call hardware_io_port_config_direction(1, $20)
+	#call hardware_io_port_config_direction(1, $40)
+	#call hardware_io_port_config_direction(1, $80)
+	
+	#call hardware_io_port_write(1, $20, 0)
+	#call hardware_io_port_write(1, $40, 0)
+	#call hardware_io_port_write(1, $80, 0)
+	
+	call hardware_io_port_config_direction(1, $70) # (port,mask)
+	call hardware_io_port_write(1, $70, 0) # (port,mask,data)
+
+	# Initial some parameters
+	voltageAverage = 0
+	voltageA = 845
+	loadA = 5
+	voltageB = 3146
+	loadB = 1350
 end
 
 
 event hardware_soft_timer(handle)
+
+	# read weight from 0_4
 	call hardware_adc_read(4,3,2) # (port,3=12bit,2=ADCC)
+	
+	# read accelerometer x,y,z from 0_5, 0_6, 0_7
+	call hardware_adc_read(5,3,2) 
+	call hardware_adc_read(6,3,2) 
+	call hardware_adc_read(7,3,2) 
+	
+	
+	# read play,previous,next button from 1_0, 1_1, 1_2
+	call hardware_io_port_read(1,$1)(result, port, playButton)
+	call hardware_io_port_read(1,$2)(result, port, prevButton)
+	call hardware_io_port_read(1,$4)(result, port, nextButton)
+	
+	if playButton then
+		call attributes_write(play_button, 0, 2, playButton)
+	else
+		call attributes_write(play_button, 0, 2, playButton)
+	end if
+	
+	if prevButton then
+		call attributes_write(prev_button, 0, 2, prevButton)
+	else
+		call attributes_write(prev_button, 0, 2, prevButton)
+	end if
+	
+	if nextButton then
+		call attributes_write(next_button, 0, 2, nextButton)
+	else
+		call attributes_write(next_button, 0, 2, nextButton)
+	end if
+	
 end
 
 event attributes_value(connection ,reason ,handle ,offset ,value_len, value)
-	if value(0:1)=$10 then
-		call hardware_io_port_write(1, $8, $8)
-	else
-		call hardware_io_port_write(1, $8, 0)
-		call hardware_io_port_write(1, $4, 0)
-	end if
+
+	# get data from the phone
+	#if value(0:1)=$10 then
+	#	call hardware_io_port_write(1, $8, $8)
+	#else
+	#	call hardware_io_port_write(1, $8, 0)
+	#	call hardware_io_port_write(1, $4, 0)
+	#end if
 	
-	if value(0:1)=$11 then
-		call hardware_io_port_write(1, $4, $4)
-	else
-		call hardware_io_port_write(1, $8, 0)
-		call hardware_io_port_write(1, $4, 0)
-	end if
+	#if value(0:1)=$11 then
+	#	call hardware_io_port_write(1, $4, $4)
+	#else
+	#	call hardware_io_port_write(1, $8, 0)
+	#	call hardware_io_port_write(1, $4, 0)
+	#end if
+	
 end
 
 event hardware_adc_result(input,value)
-    voltage=value/8
-	tmp(0:2)=voltage # 0~4096
-	call attributes_write(xgatt_pot,0,2,tmp(0:2))
+	
+	# Handle weight data
+	if (input = 4) then
+		voltage=value/8
+		voltageAverage = (9*voltageAverage + voltage)/10
+		load = voltageAverage#(voltageAverage - voltageA) * (loadB-loadA) / (voltageB - voltageA) + loadA
+		weight(0:2)=load # 0~4096
+		call attributes_write(xgatt_pot,0,2,weight(0:2))
+		
+		# Test LED with the load number
+		if (load>500) then
+			call hardware_io_port_write(1, $10, $10)
+		end if
+		if (load>1500) then
+			call hardware_io_port_write(1, $20, $20)
+		end if
+		if (load>2000) then
+			call hardware_io_port_write(1, $40, $40)
+		end if
+		if (load<100) then
+			call hardware_io_port_write(1, $10, 0)
+			call hardware_io_port_write(1, $20, 0)
+			call hardware_io_port_write(1, $40, 0)
+		end if
+	end if
+	
+	
+	# Handle accelerometer data
+    if (input = 5) then
+		voltage=value/8
+		xVal(0:2)=voltage # 0~4096
+		call attributes_write(x_value, 0, 2, xVal(0:2))
+	end if
+	if (input = 6) then
+		voltage=value/8
+		yVal(0:2)=voltage # 0~4096
+		call attributes_write(y_value, 0, 2, yVal(0:2))
+	end if
+	if (input = 7) then
+		voltage=value/8
+		zVal(0:2)=voltage # 0~4096
+		call attributes_write(z_value, 0, 2, zVal(0:2))
+	end if
+
 end
 
 event connection_disconnected(handle,result)

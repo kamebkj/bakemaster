@@ -14,7 +14,7 @@
 @end
 
 @implementation RecipeDetailViewController
-@synthesize titleName;
+@synthesize titleName, ser;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -41,6 +41,7 @@
     NSLog(@"start");
     StepsViewController *stepsVC = [self.storyboard instantiateViewControllerWithIdentifier:@"stepsVC"];
     stepsVC.steps = 5;
+    [stepsVC connectService:ser];
     [self.navigationController pushViewController:stepsVC animated:YES];
     
 }

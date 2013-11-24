@@ -127,6 +127,22 @@
 			name = Deprecated;
 			sourceTree = "<group>";
 		};
+		7E12951F18419BF800570C8B /* Recipe */ = {
+			isa = PBXGroup;
+			children = (
+				7E12950E18418AAC00570C8B /* RecipeViewController.h */,
+				7E12950F18418AAC00570C8B /* RecipeViewController.m */,
+				7E12951118418C1F00570C8B /* RecipeDetailViewController.h */,
+				7E12951218418C2000570C8B /* RecipeDetailViewController.m */,
+				7E1295141841933300570C8B /* StepsViewController.h */,
+				7E1295151841933400570C8B /* StepsViewController.m */,
+				7E12951A184196E400570C8B /* PageControlViewControl.h */,
+				7E12951B184196E500570C8B /* PageControlViewControl.m */,
+				7E12951C184196E500570C8B /* PageControlViewControl.xib */,
+			);
+			name = Recipe;
+			sourceTree = "<group>";
+		};
 		CFAD28B9146812F500DE9B23 = {
 			isa = PBXGroup;
 			children = (
@@ -168,15 +184,7 @@
 				CFAD28DA146812F500DE9B23 /* MainStoryboard_iPhone.storyboard */,
 				7E12950718417EE300570C8B /* DiscoverViewController.h */,
 				7E12950818417EE300570C8B /* DiscoverViewController.m */,
-				7E12950E18418AAC00570C8B /* RecipeViewController.h */,
-				7E12950F18418AAC00570C8B /* RecipeViewController.m */,
-				7E12951118418C1F00570C8B /* RecipeDetailViewController.h */,
-				7E12951218418C2000570C8B /* RecipeDetailViewController.m */,
-				7E1295141841933300570C8B /* StepsViewController.h */,
-				7E1295151841933400570C8B /* StepsViewController.m */,
-				7E12951A184196E400570C8B /* PageControlViewControl.h */,
-				7E12951B184196E500570C8B /* PageControlViewControl.m */,
-				7E12951C184196E500570C8B /* PageControlViewControl.xib */,
+				7E12951F18419BF800570C8B /* Recipe */,
 				CFA3C47315B02EC5009FAD3B /* CRViewController.h */,
 				CFA3C47415B02EC5009FAD3B /* CRViewController.m */,
 				CFAD290E1468337B00DE9B23 /* PeripheralCell.h */,

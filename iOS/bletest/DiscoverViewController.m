@@ -160,24 +160,28 @@
     
     NSLog(@"didDiscoverServices");
     
-    if (DEBUGMODE) {
-        CBService* ser=[_peripheral.services objectAtIndex:0];
-        
-        if([ser.UUID isEqual:[CBUUID UUIDWithString:@"da588615-01fc-4a86-949a-ca8de10607c5"]]) {
-            NSLog(@"right!");
+    
+    CBService* ser=[_peripheral.services objectAtIndex:0];
+    
+    if([ser.UUID isEqual:[CBUUID UUIDWithString:@"da588615-01fc-4a86-949a-ca8de10607c5"]]) {
+        NSLog(@"right!");
+        if (DEBUGMODE) {
             CRViewController * cr=[self.storyboard instantiateViewControllerWithIdentifier:@"cablerep"];
             [cr connectService:ser];
             [self.navigationController pushViewController:cr animated:YES];
-            
-        }else{
-            NSLog(@"not the right service");
-            
         }
+        else {
+            RecipeViewController *recipeVC = [self.storyboard instantiateViewControllerWithIdentifier:@"recipeVC"];
+            recipeVC.ser = ser;
+            [self.navigationController pushViewController:recipeVC animated:YES];
+        }
+        
     }
-    else {
-        RecipeViewController *recipeVC = [self.storyboard instantiateViewControllerWithIdentifier:@"recipeVC"];
-        [self.navigationController pushViewController:recipeVC animated:YES];
+    else{
+        NSLog(@"not the right service");
+        
     }
+    
 }
 
 

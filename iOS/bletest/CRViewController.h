@@ -51,9 +51,6 @@
     __weak IBOutlet UITextView *textBtnNext;
     
     
-    __weak IBOutlet UIImageView *arrowTx;
-    __weak IBOutlet UIImageView *arrowRx;
-    
     BOOL isOpen;
 }
 @property (nonatomic, retain) CBPeripheral * peripheral;
@@ -62,6 +59,7 @@
 - (void)peripheral:(CBPeripheral *)peripheral didDiscoverCharacteristicsForService:(CBService *)service error:(NSError *)error;
 - (void)peripheral:(CBPeripheral *)peripheral didUpdateValueForCharacteristic:(CBCharacteristic *)characteristic error:(NSError *)error;
 - (void)peripheral:(CBPeripheral *)peripheral didUpdateNotificationStateForCharacteristic:(CBCharacteristic *)characteristic error:(NSError *)error;
+
 - (IBAction)openButton:(id)sender;
 - (IBAction)closeButton:(id)sender;
 

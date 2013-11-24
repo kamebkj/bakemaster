@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <CoreBluetooth/CoreBluetooth.h>
 
 @interface RecipeDetailViewController : UIViewController {
     
@@ -15,6 +16,7 @@
 
 
 @property (retain, nonatomic) NSString *titleName;
+@property (nonatomic, retain) CBService* ser;
 
 - (IBAction)startAction:(id)sender;
 

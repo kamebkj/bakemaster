@@ -179,7 +179,7 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" bounces="NO" scrollEnabled="NO" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" id="CfT-Qs-hTZ">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="366"/>
+                                <rect key="frame" x="0.0" y="61" width="320" height="305"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" red="0.0" green="0.50196081400000003" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                             </scrollView>
@@ -218,11 +218,19 @@
                                     <action selector="prevPage:" destination="oZr-xV-vtJ" eventType="touchUpInside" id="x7x-i4-DmX"/>
                                 </connections>
                             </button>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="ljc-nI-D7B">
+                                <rect key="frame" x="48" y="0.0" width="224" height="53"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
                         </subviews>
                     </view>
                     <connections>
                         <outlet property="pageControl" destination="HRH-Tc-zCO" id="agb-Xs-SiM"/>
                         <outlet property="scrollView" destination="CfT-Qs-hTZ" id="HjL-F4-ZVz"/>
+                        <outlet property="textRx" destination="ljc-nI-D7B" id="M2S-or-hXs"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Zgz-WA-SgR" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -272,8 +280,6 @@
             <relationships>
                 <relationship kind="action" name="closeButton:"/>
                 <relationship kind="action" name="openButton:"/>
-                <relationship kind="outlet" name="arrowRx" candidateClass="UIImageView"/>
-                <relationship kind="outlet" name="arrowTx" candidateClass="UIImageView"/>
                 <relationship kind="outlet" name="helloText" candidateClass="UITextView"/>
                 <relationship kind="outlet" name="textAcceX" candidateClass="UITextView"/>
                 <relationship kind="outlet" name="textAcceY" candidateClass="UITextView"/>
@@ -305,8 +311,16 @@
             <relationships>
                 <relationship kind="action" name="nextPage:"/>
                 <relationship kind="action" name="prevPage:"/>
+                <relationship kind="outlet" name="helloText" candidateClass="UITextView"/>
                 <relationship kind="outlet" name="pageControl" candidateClass="UIPageControl"/>
                 <relationship kind="outlet" name="scrollView" candidateClass="UIScrollView"/>
+                <relationship kind="outlet" name="textAcceX" candidateClass="UITextView"/>
+                <relationship kind="outlet" name="textAcceY" candidateClass="UITextView"/>
+                <relationship kind="outlet" name="textAcceZ" candidateClass="UITextView"/>
+                <relationship kind="outlet" name="textBtnNext" candidateClass="UITextView"/>
+                <relationship kind="outlet" name="textBtnPlay" candidateClass="UITextView"/>
+                <relationship kind="outlet" name="textBtnPrev" candidateClass="UITextView"/>
+                <relationship kind="outlet" name="textRx" candidateClass="UITextView"/>
             </relationships>
         </class>
     </classes>
