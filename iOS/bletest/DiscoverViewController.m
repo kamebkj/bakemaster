@@ -8,8 +8,10 @@
 
 #import "DiscoverViewController.h"
 #import "PeripheralCell.h"
-//#import "ServiceViewController.h"
 #import "CRViewController.h"
+#import "RecipeViewController.h"
+
+#define DEBUGMODE 0
 
 @interface DiscoverViewController ()
 
@@ -158,17 +160,23 @@
     
     NSLog(@"didDiscoverServices");
     
-    CBService* ser=[_peripheral.services objectAtIndex:0];
-    
-    if([ser.UUID isEqual:[CBUUID UUIDWithString:@"da588615-01fc-4a86-949a-ca8de10607c5"]]) {
-        NSLog(@"right!");
-        CRViewController * cr=[self.storyboard instantiateViewControllerWithIdentifier:@"cablerep"];
-        [cr connectService:ser];
-        [self.navigationController pushViewController:cr animated:YES];
+    if (DEBUGMODE) {
+        CBService* ser=[_peripheral.services objectAtIndex:0];
         
-    }else{
-        NSLog(@"not the right service");
-        
+        if([ser.UUID isEqual:[CBUUID UUIDWithString:@"da588615-01fc-4a86-949a-ca8de10607c5"]]) {
+            NSLog(@"right!");
+            CRViewController * cr=[self.storyboard instantiateViewControllerWithIdentifier:@"cablerep"];
+            [cr connectService:ser];
+            [self.navigationController pushViewController:cr animated:YES];
+            
+        }else{
+            NSLog(@"not the right service");
+            
+        }
+    }
+    else {
+        RecipeViewController *recipeVC = [self.storyboard instantiateViewControllerWithIdentifier:@"recipeVC"];
+        [self.navigationController pushViewController:recipeVC animated:YES];
     }
 }
 

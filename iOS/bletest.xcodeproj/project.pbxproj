@@ -9,6 +9,11 @@
 /* Begin PBXBuildFile section */
 		0E3C8FB9163EBF82004841B3 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0E3C8FB8163EBF82004841B3 /* Default-568h@2x.png */; };
 		7E12950918417EE400570C8B /* DiscoverViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E12950818417EE300570C8B /* DiscoverViewController.m */; };
+		7E12951018418AAC00570C8B /* RecipeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E12950F18418AAC00570C8B /* RecipeViewController.m */; };
+		7E12951318418C2000570C8B /* RecipeDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E12951218418C2000570C8B /* RecipeDetailViewController.m */; };
+		7E1295161841933400570C8B /* StepsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E1295151841933400570C8B /* StepsViewController.m */; };
+		7E12951D184196E500570C8B /* PageControlViewControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E12951B184196E500570C8B /* PageControlViewControl.m */; };
+		7E12951E184196E500570C8B /* PageControlViewControl.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7E12951C184196E500570C8B /* PageControlViewControl.xib */; };
 		CF30184915A6BE7600712F9F /* 57x57.png in Resources */ = {isa = PBXBuildFile; fileRef = CF30184715A6BE7600712F9F /* 57x57.png */; };
 		CF30184A15A6BE7600712F9F /* 114x114.png in Resources */ = {isa = PBXBuildFile; fileRef = CF30184815A6BE7600712F9F /* 114x114.png */; };
 		CF6B76E215B02D1000506E29 /* ServiceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF6B76E115B02D1000506E29 /* ServiceViewController.m */; };
@@ -45,6 +50,15 @@
 		0E3C8FB8163EBF82004841B3 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		7E12950718417EE300570C8B /* DiscoverViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DiscoverViewController.h; sourceTree = "<group>"; };
 		7E12950818417EE300570C8B /* DiscoverViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DiscoverViewController.m; sourceTree = "<group>"; };
+		7E12950E18418AAC00570C8B /* RecipeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RecipeViewController.h; path = ../RecipeViewController.h; sourceTree = "<group>"; };
+		7E12950F18418AAC00570C8B /* RecipeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RecipeViewController.m; path = ../RecipeViewController.m; sourceTree = "<group>"; };
+		7E12951118418C1F00570C8B /* RecipeDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RecipeDetailViewController.h; sourceTree = "<group>"; };
+		7E12951218418C2000570C8B /* RecipeDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RecipeDetailViewController.m; sourceTree = "<group>"; };
+		7E1295141841933300570C8B /* StepsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StepsViewController.h; sourceTree = "<group>"; };
+		7E1295151841933400570C8B /* StepsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StepsViewController.m; sourceTree = "<group>"; };
+		7E12951A184196E400570C8B /* PageControlViewControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PageControlViewControl.h; sourceTree = "<group>"; };
+		7E12951B184196E500570C8B /* PageControlViewControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PageControlViewControl.m; sourceTree = "<group>"; };
+		7E12951C184196E500570C8B /* PageControlViewControl.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PageControlViewControl.xib; sourceTree = "<group>"; };
 		CF30184715A6BE7600712F9F /* 57x57.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = 57x57.png; path = ../57x57.png; sourceTree = "<group>"; };
 		CF30184815A6BE7600712F9F /* 114x114.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = 114x114.png; path = ../114x114.png; sourceTree = "<group>"; };
 		CF6B76E015B02D1000506E29 /* ServiceViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ServiceViewController.h; sourceTree = "<group>"; };
@@ -149,13 +163,22 @@
 		CFAD28CE146812F500DE9B23 /* bletest */ = {
 			isa = PBXGroup;
 			children = (
-				CFA3C47315B02EC5009FAD3B /* CRViewController.h */,
-				CFA3C47415B02EC5009FAD3B /* CRViewController.m */,
 				CFAD28D7146812F500DE9B23 /* bletestAppDelegate.h */,
 				CFAD28D8146812F500DE9B23 /* bletestAppDelegate.m */,
 				CFAD28DA146812F500DE9B23 /* MainStoryboard_iPhone.storyboard */,
 				7E12950718417EE300570C8B /* DiscoverViewController.h */,
 				7E12950818417EE300570C8B /* DiscoverViewController.m */,
+				7E12950E18418AAC00570C8B /* RecipeViewController.h */,
+				7E12950F18418AAC00570C8B /* RecipeViewController.m */,
+				7E12951118418C1F00570C8B /* RecipeDetailViewController.h */,
+				7E12951218418C2000570C8B /* RecipeDetailViewController.m */,
+				7E1295141841933300570C8B /* StepsViewController.h */,
+				7E1295151841933400570C8B /* StepsViewController.m */,
+				7E12951A184196E400570C8B /* PageControlViewControl.h */,
+				7E12951B184196E500570C8B /* PageControlViewControl.m */,
+				7E12951C184196E500570C8B /* PageControlViewControl.xib */,
+				CFA3C47315B02EC5009FAD3B /* CRViewController.h */,
+				CFA3C47415B02EC5009FAD3B /* CRViewController.m */,
 				CFAD290E1468337B00DE9B23 /* PeripheralCell.h */,
 				CFAD290F1468337B00DE9B23 /* PeripheralCell.m */,
 				7E12950A1841888600570C8B /* Deprecated */,
@@ -271,6 +294,7 @@
 				CFAD28D3146812F500DE9B23 /* InfoPlist.strings in Resources */,
 				CFAD28DC146812F500DE9B23 /* MainStoryboard_iPhone.storyboard in Resources */,
 				0E3C8FB9163EBF82004841B3 /* Default-568h@2x.png in Resources */,
+				7E12951E184196E500570C8B /* PageControlViewControl.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -312,6 +336,10 @@
 				CF6B76E215B02D1000506E29 /* ServiceViewController.m in Sources */,
 				CFA3C47515B02EC5009FAD3B /* CRViewController.m in Sources */,
 				7E12950918417EE400570C8B /* DiscoverViewController.m in Sources */,
+				7E12951018418AAC00570C8B /* RecipeViewController.m in Sources */,
+				7E12951318418C2000570C8B /* RecipeDetailViewController.m in Sources */,
+				7E1295161841933400570C8B /* StepsViewController.m in Sources */,
+				7E12951D184196E500570C8B /* PageControlViewControl.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
