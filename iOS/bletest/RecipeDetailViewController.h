@@ -11,11 +11,14 @@
 
 @interface RecipeDetailViewController : UIViewController {
     
-    __weak IBOutlet UILabel *recipeTitle;
+    IBOutlet UILabel *recipeTitle;
+    IBOutlet UIImageView *recipeImage;
+    IBOutlet UITextView *recipeDescription;
 }
 
 
-@property (retain, nonatomic) NSString *titleName;
+@property (retain, nonatomic) NSDictionary *recipeDetail;
+@property (nonatomic) NSInteger recipeItem;
 @property (nonatomic, retain) CBService* ser;
 
 - (IBAction)startAction:(id)sender;

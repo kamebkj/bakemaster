@@ -14,7 +14,7 @@
 @end
 
 @implementation RecipeDetailViewController
-@synthesize titleName, ser;
+@synthesize recipeDetail, recipeItem, ser;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -25,11 +25,18 @@
     return self;
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    NSLog(@"viewWillAppear");
+    
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
 
-    [recipeTitle setText:titleName];
+    [recipeTitle setText:[recipeDetail objectForKey:@"name"]];
+    [recipeDescription setText:[recipeDetail objectForKey:@"description"]];
+    [recipeImage setImage:[UIImage imageNamed:[recipeDetail objectForKey:@"image"]]];
 }
 
 - (void)didReceiveMemoryWarning
@@ -38,9 +45,13 @@
 }
 
 - (IBAction)startAction:(id)sender {
+    NSArray *steps = [recipeDetail objectForKey:@"steps"];
+    
     NSLog(@"start");
     StepsViewController *stepsVC = [self.storyboard instantiateViewControllerWithIdentifier:@"stepsVC"];
-    stepsVC.steps = 5;
+    stepsVC.recipeItem = recipeItem;
+    stepsVC.stepArray = steps;
+    
     [stepsVC connectService:ser];
     [self.navigationController pushViewController:stepsVC animated:YES];
     

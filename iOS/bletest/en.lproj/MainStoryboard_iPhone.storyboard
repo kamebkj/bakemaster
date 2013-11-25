@@ -138,7 +138,7 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="8tN-8O-zuE">
-                                <rect key="frame" x="99" y="215" width="123" height="44"/>
+                                <rect key="frame" x="99" y="397" width="123" height="44"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                 <state key="normal" title="Start Cooking">
@@ -152,18 +152,31 @@
                                     <action selector="startAction:" destination="PJi-wY-DCn" eventType="touchUpInside" id="Nus-Bo-axj"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Obd-YH-PZh">
-                                <rect key="frame" x="139" y="86" width="42" height="21"/>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Obd-YH-PZh">
+                                <rect key="frame" x="0.0" y="41" width="320" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="asdas" id="n9W-Ys-8EY">
+                                <rect key="frame" x="30" y="271" width="260" height="118"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" id="Uvy-BJ-V1F">
+                                <rect key="frame" x="52" y="80" width="217" height="177"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                     <connections>
-                        <outlet property="recipeTitle" destination="Obd-YH-PZh" id="bNX-eg-JzZ"/>
+                        <outlet property="recipeDescription" destination="n9W-Ys-8EY" id="xcO-gy-EIp"/>
+                        <outlet property="recipeImage" destination="Uvy-BJ-V1F" id="qUa-ZY-5VI"/>
+                        <outlet property="recipeTitle" destination="Obd-YH-PZh" id="ydw-KF-BJG"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="eOT-vq-R6b" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -179,17 +192,16 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" bounces="NO" scrollEnabled="NO" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" id="CfT-Qs-hTZ">
-                                <rect key="frame" x="0.0" y="61" width="320" height="305"/>
+                                <rect key="frame" x="0.0" y="51" width="320" height="362"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" red="0.0" green="0.50196081400000003" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                             </scrollView>
                             <pageControl opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="5" id="HRH-Tc-zCO">
-                                <rect key="frame" x="111" y="369" width="98" height="36"/>
+                                <rect key="frame" x="113" y="421" width="98" height="36"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" red="0.0" green="0.50196081400000003" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                             </pageControl>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="daX-bR-Twc">
-                                <rect key="frame" x="231" y="365" width="57" height="44"/>
+                                <rect key="frame" x="233" y="417" width="57" height="44"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                 <state key="normal" title="Next">
@@ -204,7 +216,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="dNp-ga-k6b">
-                                <rect key="frame" x="28" y="365" width="57" height="44"/>
+                                <rect key="frame" x="30" y="417" width="57" height="44"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                 <state key="normal" title="Prev">
@@ -218,19 +230,36 @@
                                     <action selector="prevPage:" destination="oZr-xV-vtJ" eventType="touchUpInside" id="x7x-i4-DmX"/>
                                 </connections>
                             </button>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="ljc-nI-D7B">
-                                <rect key="frame" x="48" y="0.0" width="224" height="53"/>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="11" id="ljc-nI-D7B">
+                                <rect key="frame" x="149" y="8" width="74" height="37"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="22" id="Fz1-cK-CaJ">
+                                <rect key="frame" x="233" y="8" width="74" height="37"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="textColor" red="0.0" green="0.50196081400000003" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Current value" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="fPw-CN-Tyc">
+                                <rect key="frame" x="51" y="16" width="103" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
+                        <color key="backgroundColor" red="0.96862745100000003" green="0.96862745100000003" blue="0.96862745100000003" alpha="1" colorSpace="calibratedRGB"/>
                     </view>
                     <connections>
+                        <outlet property="currentValue" destination="ljc-nI-D7B" id="NPG-S7-OMx"/>
                         <outlet property="pageControl" destination="HRH-Tc-zCO" id="agb-Xs-SiM"/>
                         <outlet property="scrollView" destination="CfT-Qs-hTZ" id="HjL-F4-ZVz"/>
-                        <outlet property="textRx" destination="ljc-nI-D7B" id="M2S-or-hXs"/>
+                        <outlet property="targerValue" destination="Fz1-cK-CaJ" id="bCP-og-xMN"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Zgz-WA-SgR" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -300,6 +329,8 @@
             <source key="sourceIdentifier" type="project" relativePath="./Classes/RecipeDetailViewController.h"/>
             <relationships>
                 <relationship kind="action" name="startAction:"/>
+                <relationship kind="outlet" name="recipeDescription" candidateClass="UITextView"/>
+                <relationship kind="outlet" name="recipeImage" candidateClass="UIImageView"/>
                 <relationship kind="outlet" name="recipeTitle" candidateClass="UILabel"/>
             </relationships>
         </class>
@@ -311,16 +342,10 @@
             <relationships>
                 <relationship kind="action" name="nextPage:"/>
                 <relationship kind="action" name="prevPage:"/>
-                <relationship kind="outlet" name="helloText" candidateClass="UITextView"/>
+                <relationship kind="outlet" name="currentValue" candidateClass="UITextView"/>
                 <relationship kind="outlet" name="pageControl" candidateClass="UIPageControl"/>
                 <relationship kind="outlet" name="scrollView" candidateClass="UIScrollView"/>
-                <relationship kind="outlet" name="textAcceX" candidateClass="UITextView"/>
-                <relationship kind="outlet" name="textAcceY" candidateClass="UITextView"/>
-                <relationship kind="outlet" name="textAcceZ" candidateClass="UITextView"/>
-                <relationship kind="outlet" name="textBtnNext" candidateClass="UITextView"/>
-                <relationship kind="outlet" name="textBtnPlay" candidateClass="UITextView"/>
-                <relationship kind="outlet" name="textBtnPrev" candidateClass="UITextView"/>
-                <relationship kind="outlet" name="textRx" candidateClass="UITextView"/>
+                <relationship kind="outlet" name="targerValue" candidateClass="UITextView"/>
             </relationships>
         </class>
     </classes>

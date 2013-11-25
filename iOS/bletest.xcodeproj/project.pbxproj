@@ -14,6 +14,12 @@
 		7E1295161841933400570C8B /* StepsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E1295151841933400570C8B /* StepsViewController.m */; };
 		7E12951D184196E500570C8B /* PageControlViewControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E12951B184196E500570C8B /* PageControlViewControl.m */; };
 		7E12951E184196E500570C8B /* PageControlViewControl.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7E12951C184196E500570C8B /* PageControlViewControl.xib */; };
+		7E9381921842C10700E16EA2 /* recipe.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7E9381911842C10700E16EA2 /* recipe.plist */; };
+		7E9381A21842D65F00E16EA2 /* oven.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 7E93819E1842D65F00E16EA2 /* oven.jpg */; };
+		7E9381A31842D65F00E16EA2 /* butter.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 7E93819F1842D65F00E16EA2 /* butter.jpg */; };
+		7E9381A41842D65F00E16EA2 /* eggs.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 7E9381A01842D65F00E16EA2 /* eggs.jpg */; };
+		7E9381A51842D65F00E16EA2 /* sugar.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 7E9381A11842D65F00E16EA2 /* sugar.jpg */; };
+		7E9381A71842D9BC00E16EA2 /* choco.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 7E9381A61842D9BC00E16EA2 /* choco.jpg */; };
 		CF30184915A6BE7600712F9F /* 57x57.png in Resources */ = {isa = PBXBuildFile; fileRef = CF30184715A6BE7600712F9F /* 57x57.png */; };
 		CF30184A15A6BE7600712F9F /* 114x114.png in Resources */ = {isa = PBXBuildFile; fileRef = CF30184815A6BE7600712F9F /* 114x114.png */; };
 		CF6B76E215B02D1000506E29 /* ServiceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF6B76E115B02D1000506E29 /* ServiceViewController.m */; };
@@ -59,6 +65,12 @@
 		7E12951A184196E400570C8B /* PageControlViewControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PageControlViewControl.h; sourceTree = "<group>"; };
 		7E12951B184196E500570C8B /* PageControlViewControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PageControlViewControl.m; sourceTree = "<group>"; };
 		7E12951C184196E500570C8B /* PageControlViewControl.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PageControlViewControl.xib; sourceTree = "<group>"; };
+		7E9381911842C10700E16EA2 /* recipe.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = recipe.plist; sourceTree = "<group>"; };
+		7E93819E1842D65F00E16EA2 /* oven.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = oven.jpg; sourceTree = "<group>"; };
+		7E93819F1842D65F00E16EA2 /* butter.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = butter.jpg; sourceTree = "<group>"; };
+		7E9381A01842D65F00E16EA2 /* eggs.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = eggs.jpg; sourceTree = "<group>"; };
+		7E9381A11842D65F00E16EA2 /* sugar.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = sugar.jpg; sourceTree = "<group>"; };
+		7E9381A61842D9BC00E16EA2 /* choco.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = choco.jpg; sourceTree = "<group>"; };
 		CF30184715A6BE7600712F9F /* 57x57.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = 57x57.png; path = ../57x57.png; sourceTree = "<group>"; };
 		CF30184815A6BE7600712F9F /* 114x114.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = 114x114.png; path = ../114x114.png; sourceTree = "<group>"; };
 		CF6B76E015B02D1000506E29 /* ServiceViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ServiceViewController.h; sourceTree = "<group>"; };
@@ -143,6 +155,18 @@
 			name = Recipe;
 			sourceTree = "<group>";
 		};
+		7E9381931842C76000E16EA2 /* image */ = {
+			isa = PBXGroup;
+			children = (
+				7E9381A61842D9BC00E16EA2 /* choco.jpg */,
+				7E93819E1842D65F00E16EA2 /* oven.jpg */,
+				7E93819F1842D65F00E16EA2 /* butter.jpg */,
+				7E9381A01842D65F00E16EA2 /* eggs.jpg */,
+				7E9381A11842D65F00E16EA2 /* sugar.jpg */,
+			);
+			path = image;
+			sourceTree = "<group>";
+		};
 		CFAD28B9146812F500DE9B23 = {
 			isa = PBXGroup;
 			children = (
@@ -198,6 +222,8 @@
 		CFAD28CF146812F500DE9B23 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				7E9381931842C76000E16EA2 /* image */,
+				7E9381911842C10700E16EA2 /* recipe.plist */,
 				CF30184715A6BE7600712F9F /* 57x57.png */,
 				CF30184815A6BE7600712F9F /* 114x114.png */,
 				CFAD28D0146812F500DE9B23 /* bletest-Info.plist */,
@@ -303,6 +329,12 @@
 				CFAD28DC146812F500DE9B23 /* MainStoryboard_iPhone.storyboard in Resources */,
 				0E3C8FB9163EBF82004841B3 /* Default-568h@2x.png in Resources */,
 				7E12951E184196E500570C8B /* PageControlViewControl.xib in Resources */,
+				7E9381921842C10700E16EA2 /* recipe.plist in Resources */,
+				7E9381A21842D65F00E16EA2 /* oven.jpg in Resources */,
+				7E9381A31842D65F00E16EA2 /* butter.jpg in Resources */,
+				7E9381A41842D65F00E16EA2 /* eggs.jpg in Resources */,
+				7E9381A51842D65F00E16EA2 /* sugar.jpg in Resources */,
+				7E9381A71842D9BC00E16EA2 /* choco.jpg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

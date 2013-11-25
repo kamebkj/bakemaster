@@ -11,6 +11,9 @@
 
 @interface StepsViewController : UIViewController <UIScrollViewDelegate, CBPeripheralDelegate> {
     BOOL pageControlUsed;
+    NSInteger steps;
+    NSMutableArray *stepStatus;
+    NSInteger remainTarget;
     
     // Characteristics
     CBCharacteristic *cr_characteristic;
@@ -25,35 +28,28 @@
     CBCharacteristic *btn_prev_characteristic;
     CBCharacteristic *btn_next_characteristic;
     
-    __weak IBOutlet UITextView *helloText;
-    __weak IBOutlet UITextView *textRx;
-    __weak IBOutlet UITextView *textAcceX;
-    __weak IBOutlet UITextView *textAcceY;
-    __weak IBOutlet UITextView *textAcceZ;
-    __weak IBOutlet UITextView *textBtnPlay;
-    __weak IBOutlet UITextView *textBtnPrev;
-    __weak IBOutlet UITextView *textBtnNext;
+    CBCharacteristic *pot_rollmax_characteristic;
     
-//    BOOL isOpen;
 }
 
+@property (weak, nonatomic) IBOutlet UITextView *currentValue;
+@property (weak, nonatomic) IBOutlet UITextView *targerValue;
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 @property (weak, nonatomic) IBOutlet UIPageControl *pageControl;
 @property (nonatomic, retain) NSMutableArray *viewControllers;
-@property (nonatomic) NSInteger steps;
+
+@property (retain, nonatomic) NSArray *stepArray;
+@property (nonatomic) NSInteger recipeItem;
 
 - (IBAction)prevPage:(id)sender;
 - (IBAction)nextPage:(id)sender;
 
 // Characteristics
-
 @property (nonatomic, retain) CBPeripheral * peripheral;
 
 - (void)connectService:(CBService *)per;
 - (void)peripheral:(CBPeripheral *)peripheral didDiscoverCharacteristicsForService:(CBService *)service error:(NSError *)error;
 - (void)peripheral:(CBPeripheral *)peripheral didUpdateValueForCharacteristic:(CBCharacteristic *)characteristic error:(NSError *)error;
 - (void)peripheral:(CBPeripheral *)peripheral didUpdateNotificationStateForCharacteristic:(CBCharacteristic *)characteristic error:(NSError *)error;
-//
-//- (IBAction)openButton:(id)sender;
-//- (IBAction)closeButton:(id)sender;
+
 @end

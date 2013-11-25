@@ -28,6 +28,11 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    // Get recipes from recipe.plist
+    NSString *path = [[NSBundle mainBundle] pathForResource:@"recipe" ofType:@"plist"];
+    NSDictionary *dict = [[NSDictionary alloc] initWithContentsOfFile:path];
+    recipeArray = [dict objectForKey:@"recipes"];
 }
 
 - (void)didReceiveMemoryWarning
@@ -44,7 +49,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 3;
+    return [recipeArray count];;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -56,9 +61,10 @@
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     }
     
-    if (indexPath.row==0) cell.textLabel.text = @"Chocolate cake";
-    else if (indexPath.row==1) cell.textLabel.text = @"Banana cake";
-    else cell.textLabel.text = @"Almond cookie";
+    cell.textLabel.text = [recipeArray[indexPath.row] objectForKey:@"name"];
+//    if (indexPath.row==0) cell.textLabel.text = @"Chocolate cake";
+//    else if (indexPath.row==1) cell.textLabel.text = @"Banana cake";
+//    else cell.textLabel.text = @"Almond cookie";
     
     return cell;
 }
@@ -67,21 +73,10 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
     RecipeDetailViewController * recipeDetailVC=[self.storyboard instantiateViewControllerWithIdentifier:@"recipeDetailVC"];
-    recipeDetailVC.titleName = [NSString stringWithFormat:@"%d", indexPath.row];
+    recipeDetailVC.recipeDetail = recipeArray[indexPath.row];
+    recipeDetailVC.recipeItem = indexPath.row;
     recipeDetailVC.ser = ser;
     [self.navigationController pushViewController:recipeDetailVC animated:YES];
-    
-    
-//    if (indexPath.row==0) {
-//        
-//    }
-//    else if (indexPath.row==1) {
-//        
-//    }
-//    else {
-//        
-//    }
-    
 }
 
 @end

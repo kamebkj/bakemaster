@@ -13,7 +13,7 @@
 @end
 
 @implementation PageControlViewControl
-@synthesize pageNumberLabel;
+@synthesize recipeItem;
 
 - (void)didReceiveMemoryWarning
 {
@@ -33,8 +33,18 @@
 {
     [super viewDidLoad];
     
-    pageNumberLabel.text = [NSString stringWithFormat:@"Page %d", pageNumber + 1];
-    //self.view.backgroundColor = [PageControlViewControl pageControlColorWithIndex:pageNumber];
+    NSString *path = [[NSBundle mainBundle] pathForResource:@"recipe" ofType:@"plist"];
+    NSDictionary *dict = [[NSDictionary alloc] initWithContentsOfFile:path];
+    NSArray *recipeArray = [dict objectForKey:@"recipes"];
+    NSDictionary *item = recipeArray[recipeItem];
+    NSArray *stepsArray = [item objectForKey:@"steps"];
+    NSDictionary *stepDict = stepsArray[pageNumber];
+
+    stepLabel.text = [NSString stringWithFormat:@"Step %d", pageNumber + 1];
+//    amountTextView.text = [stepDict objectForKey:@"amount"];
+    descriptionTextView.text = [stepDict objectForKey:@"description"];
+    [imageView setImage:[UIImage imageNamed:[stepDict objectForKey:@"image"]]];
+    
 }
 
 - (id)initWithPageNumber:(int)page {

@@ -9,11 +9,15 @@
 #import <UIKit/UIKit.h>
 
 @interface PageControlViewControl : UIViewController {
-    IBOutlet UILabel *pageNumberLabel;
+    IBOutlet UILabel *stepLabel;
+    IBOutlet UIImageView *imageView;
+//    IBOutlet UITextView *amountTextView;
+    IBOutlet UITextView *descriptionTextView;
+    
     int pageNumber;
 }
 
-@property (nonatomic, retain) UILabel *pageNumberLabel;
+@property (nonatomic) NSInteger recipeItem;
 
 - (id)initWithPageNumber:(int)page;
 
