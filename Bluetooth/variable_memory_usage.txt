@@ -1,4 +1,4 @@
-60
+78
 0:0	GAP_AD_FLAG_BREDR_NOT_SUPPORTED
 0:0	GAP_AD_FLAG_GENERAL_DISCOVERABLE
 0:0	GAP_AD_FLAG_LIMITED_DISCOVERABLE
@@ -27,6 +27,7 @@
 0:0	connection_connected
 0:0	connection_encrypted
 0:0	connection_parameters_change
+0:0	dble_tap_weight
 0:0	gap_ad_type_flags
 0:0	gap_ad_type_localname_complete
 0:0	gap_ad_type_localname_short
@@ -90,16 +91,21 @@
 2:2	xVal
 4:2	yVal
 6:2	zVal
-8:4	voltage
-12:4	voltageAverage
-16:4	loadA
-20:4	loadB
-24:4	voltageA
-28:4	voltageB
-32:4	load
-36:4	result
-40:4	port
-44:4	playButton
-48:4	prevButton
-52:4	nextButton
-56:4	data
+8:2	remainingWeight
+10:4	voltage
+14:4	voltageAverage
+18:4	loadA
+22:4	loadB
+26:4	voltageA
+30:4	voltageB
+34:4	load
+38:4	maxLoadAverage
+42:4	resultRead
+46:4	port
+50:4	playButton
+54:4	playButtonPressed
+58:4	prevButton
+62:4	prevButtonPressed
+66:4	nextButton
+70:4	nextButtonPressed
+74:4	data

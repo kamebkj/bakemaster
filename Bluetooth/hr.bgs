@@ -3,6 +3,7 @@ dim weight(2)
 dim xVal(2)
 dim yVal(2)
 dim zVal(2)
+dim remainingWeight(2)
 
 dim voltage
 dim voltageAverage
@@ -11,12 +12,16 @@ dim loadB
 dim voltageA
 dim voltageB
 dim load
+dim maxLoadAverage
 
-dim result
+dim resultRead
 dim port
 dim playButton
+dim playButtonPressed
 dim prevButton
+dim prevButtonPressed
 dim nextButton
+dim nextButtonPressed
 
 dim data
 
@@ -59,35 +64,57 @@ event hardware_soft_timer(handle)
 	
 	
 	# read play,previous,next button from 1_0, 1_1, 1_2
-	call hardware_io_port_read(1,$1)(result, port, playButton)
-	call hardware_io_port_read(1,$2)(result, port, prevButton)
-	call hardware_io_port_read(1,$4)(result, port, nextButton)
+	call hardware_io_port_read(1,$1)(resultRead, port, playButton)
+	call hardware_io_port_read(1,$2)(resultRead, port, prevButton)
+	call hardware_io_port_read(1,$4)(resultRead, port, nextButton)
 	
-	if playButton then
+	# DEBOUNCING CODE (ONLY SEND WHEN STATE CHANGE)
+
+	# playButton pressed is 1, not pressed is 0
+	if playButton = 1 & playButtonPressed = 0 then
 		call attributes_write(play_button, 0, 2, playButton)
-	else
+		playButtonPressed = 1
+	end if
+	if playButton = 0 & playButtonPressed = 1
 		call attributes_write(play_button, 0, 2, playButton)
+		playButtonPressed = 0
 	end if
 	
-	if prevButton then
+	# prevButton pressed is 2, not pressed is 0
+	if prevButton = 2 & prevButtonPressed = 0 then
 		call attributes_write(prev_button, 0, 2, prevButton)
-	else
+		prevButtonPressed = 1
+	end if
+	if prevButton = 0 & prevButtonPressed = 1
 		call attributes_write(prev_button, 0, 2, prevButton)
+		prevButtonPressed = 0
 	end if
 	
-	if nextButton then
+	# nextButton pressed is 4, not pressed is 0
+	if nextButton = 4 & nextButtonPressed = 0 then
 		call attributes_write(next_button, 0, 2, nextButton)
-	else
+		nextButtonPressed = 1
+	end if
+	if nextButton = 0 & nextButtonPressed = 1
 		call attributes_write(next_button, 0, 2, nextButton)
+		nextButtonPressed = 0
 	end if
 	
 end
 
 event attributes_value(connection ,reason ,handle ,offset ,value_len, value)
+	# Assign remaining weight measurement to global variable
+	remainingWeight(0:1) = value(0:1)
+
+	if remainingWeight(0:1)=100
+		# light up LED
+		call hardware_io_port_write(1, $40, $40)
+	end if
 
 	# get data from the phone
 	#if value(0:1)=$10 then
-	#	call hardware_io_port_write(1, $8, $8)
+	#	call hardware_io_port_write(1, $8, $8) 
+	# write to 13th port high value
 	#else
 	#	call hardware_io_port_write(1, $8, 0)
 	#	call hardware_io_port_write(1, $4, 0)
@@ -108,7 +135,12 @@ event hardware_adc_result(input,value)
 	if (input = 4) then
 		voltage=value/8
 		voltageAverage = (9*voltageAverage + voltage)/10
-		load = voltageAverage#(voltageAverage - voltageA) * (loadB-loadA) / (voltageB - voltageA) + loadA
+		load = voltageAverage #(voltageAverage - voltageA) * (loadB-loadA) / (voltageB - voltageA) + loadA
+
+		if load > maxLoadAverage then
+			maxLoadAverage = load
+		end if
+
 		weight(0:2)=load # 0~4096
 		call attributes_write(xgatt_pot,0,2,weight(0:2))
 		
@@ -145,6 +177,17 @@ event hardware_adc_result(input,value)
 		voltage=value/8
 		zVal(0:2)=voltage # 0~4096
 		call attributes_write(z_value, 0, 2, zVal(0:2))
+	end if
+
+	# THIS IS FOR SENDING WEIGHT TO PHONE AFTER DOUBLE TAP
+	if (input = 8) then
+		# Write weight to double tap weight char
+		weight(0:2)=maxLoadAverage # 0~4096
+		call attributes_write(dble_tap_weight,0,2,weight(0:2))
+
+		# Reset all measurements to zero
+		maxLoadAverage = 0
+		voltageAverage = 0
 	end if
 
 end
