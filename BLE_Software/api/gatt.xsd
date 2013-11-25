@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" >
+    <xs:element name="configuration">
+        <xs:complexType>          
+            <xs:sequence minOccurs="1" maxOccurs="unbounded">
+            	<xs:element name="service">
+            		<xs:complexType mixed="true">
+						<xs:choice maxOccurs="unbounded">
+            				<xs:element name="description" type="xs:string" minOccurs="0" maxOccurs="1" />
+							<!-- uri element for future use -->
+							<xs:element name="uri" type="xs:string" minOccurs="0" maxOccurs="1" />
+            				<xs:element name="include" minOccurs="0" maxOccurs="unbounded">
+            					<xs:complexType>
+            						<xs:attribute name="id" type="xs:string" use="required">
+            						</xs:attribute>
+            					</xs:complexType></xs:element>
+            				<xs:element name="characteristic" minOccurs="0" maxOccurs="unbounded">
+            				    <xs:complexType>
+                                    <xs:all>
+                                    	<xs:element name="properties" maxOccurs="1" type="propertiesComplexType">
+                                    	</xs:element>
+                                    	<xs:element name="value" maxOccurs="1" type="valueComplexType">
+                                    	</xs:element>
+                                    	<xs:element name="descriptor" minOccurs="0">
+                                            <xs:complexType>
+                                            	<xs:sequence>
+                                            		<xs:element name="properties" type="propertiesComplexType">
+                                            		</xs:element>
+                                            		<xs:element name="value" type="valueComplexType">
+                                            		</xs:element>
+                                            	</xs:sequence>
+                                            	<xs:attribute name="uuid" type="xs:string" use="required">
+                                            	</xs:attribute>
+                                            	<xs:attribute name="id" type="xs:string" use="optional">
+                                            	</xs:attribute>
+                                            </xs:complexType>
+                                    	</xs:element>
+                                    	<xs:element name="description" minOccurs="0">
+                                    	</xs:element>
+                                    </xs:all>
+                                    <xs:attribute name="uuid" type="xs:string" use="required">
+            				    	</xs:attribute>
+            				    	<xs:attribute name="id" type="xs:string" use="optional">
+            				    	</xs:attribute>
+            				    </xs:complexType>
+            				</xs:element>
+            			</xs:choice>
+            			<xs:attribute name="uuid" type="xs:string" use="required" />
+            			<xs:attribute name="id" type="xs:string" use="optional"></xs:attribute>
+            			<xs:attribute name="type" use="optional">
+            				<xs:simpleType>
+            					<xs:restriction base="xs:string">
+            						<xs:enumeration value="primary"></xs:enumeration>
+            						<xs:enumeration value="secondary"></xs:enumeration>
+            					</xs:restriction>
+            				</xs:simpleType>
+            			</xs:attribute>
+            			<xs:attribute name="advertise" default="true" use="optional">
+            				<xs:simpleType>
+            					<xs:restriction base="xs:string">
+            						<xs:enumeration value="true"></xs:enumeration>
+            						<xs:enumeration value="false"></xs:enumeration>
+            					</xs:restriction>
+            				</xs:simpleType>
+            			</xs:attribute>
+            		</xs:complexType>
+            	</xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:complexType name="propertiesComplexType">
+    	<xs:attribute name="read" type="xs:boolean"></xs:attribute>
+    	<xs:attribute name="const" type="xs:boolean"></xs:attribute>
+    	<xs:attribute name="write" type="xs:boolean"></xs:attribute>
+    	<xs:attribute name="write_no_response" type="xs:boolean"></xs:attribute>
+    	<xs:attribute name="notify" type="xs:boolean"></xs:attribute>
+    	<xs:attribute name="indicate" type="xs:boolean"></xs:attribute>
+    	<xs:attribute name="authenticated_read" type="xs:boolean"></xs:attribute>
+    	<xs:attribute name="authenticated_write" type="xs:boolean"></xs:attribute>
+    </xs:complexType>
+    <xs:complexType name="valueComplexType" mixed="true">
+    	<xs:attribute name="type">
+    		<xs:simpleType>
+    			<xs:restriction base="xs:string">
+    				<xs:enumeration value="utf-8"></xs:enumeration>
+    				<xs:enumeration value="hex"></xs:enumeration>
+    				<xs:enumeration value="user"></xs:enumeration>
+    			</xs:restriction>
+    		</xs:simpleType>
+    	</xs:attribute>
+    	<xs:attribute name="length" type="xs:string"></xs:attribute>
+    	<xs:attribute name="variable_length" type="xs:string"></xs:attribute>
+    </xs:complexType>
+</xs:schema>

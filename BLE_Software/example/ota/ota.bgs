@@ -1,0 +1,190 @@
+# OTA example script
+#
+# This script is used to transfer image to external spi flash
+# After booting into DFU mode, bootloader reads flash contents and flashes
+# contents to module
+# 
+# Image loaded to external flash does not include bootloader(4kB) or topmost page(2kB)
+# After the image is added one byte checksum
+# Checksum byte calculation:
+# initialize checksum to 0xbf
+# add all bytes from binary to checksum
+#
+# Example OTA service contains 2 characteristics
+# - control point characteristic 
+#      This is used to control Flashing procedure
+#      Write request must be used to send commands, because some commands may take a while
+#      to process.
+# - data transfer characteristic
+#      Firmware image is transferred through this characteristic
+#      Use write command procedure to achieve faster image upload
+#
+#
+# OTA Procedure:
+# - Enable power to external flash
+#    Write byte 0x04 to control point
+# - Erase Flash
+#    Write request control point with data 0x00, to erase flash block 0
+#    Write request control point with data 0x01, to erase flash block 1
+# - Init upload
+#    Write request control point with data 0x02, to initialize flashing
+# - Upload Data
+#    Use Write Commands to transfer firmware image to Data characteristic
+#    NOTE! to simplify script data must be aligned to 256 byte boundaries
+# - Flash Image
+#    Boot device to DFU mode by writing 0x03 byte to control point
+
+dim command
+dim spi_response(4)
+dim tmp(4)
+dim result
+dim channel
+dim spi_len
+dim curr_connection
+dim dfu_pointer  #current pointer to flash location to upload firmware
+dim a
+
+#chip select is in port 1.6 for spi flash
+#spi flash uses usart channel 0
+#timer 0 flash block erase peeker
+
+#init gap mode
+event system_boot(major ,minor ,patch ,build ,ll_version ,protocol_version ,hw )
+	#Set device to advertisement mode and allow undirected connections
+	call gap_set_mode(2,2)
+	
+	dfu_pointer=0
+	
+	call hardware_io_port_config_pull(1,$43,1)
+	
+	# set power pin as output and pull down
+	# also set p1.1 to output (does not have internal pull-resistor)
+    call hardware_io_port_write(1,$43,0)    
+	call hardware_io_port_config_direction(1,$3)
+end
+
+#timer expired
+#poll for flash ready, and send response to user
+event hardware_soft_timer(handle)
+	if handle=0 then
+	    call hardware_io_port_config_direction(1,$43)
+        call hardware_spi_transfer(0,2,"\x05\x00")(result,channel,spi_len,spi_response(0:3))
+		call hardware_io_port_config_direction(1,$3)
+        if spi_response(1:1) & 1 then
+			#peek again later
+		    call hardware_set_soft_timer(6000,0,1)
+		else
+			call attributes_user_write_response(curr_connection, 0)
+		end if
+	end if
+end
+
+event attributes_value(connection, reason, handle, offset, value_len, value_data)
+	#save connection handle, is always 0 if only slave
+	curr_connection=connection
+
+    if handle = ota_control then
+		#attribute is user attribute, reason is always write_request_user
+		if value_len >1 || offset >0 then
+			call attributes_user_write_response(connection, $80) #report application error code
+		else
+			command=value_data(0:1)
+			if command=0 then#erase block 0
+				#pull power and chip select pins up
+				#call hardware_io_port_write(1,$1,$1)
+			
+				#write enable, cs down
+				call hardware_io_port_config_direction(1,$43)        
+				call hardware_spi_transfer(0,1,"\x06")
+                call hardware_io_port_config_direction(1,$3)
+        
+				#erase block 0 0-1ffff
+                call hardware_io_port_config_direction(1,$43)
+				call hardware_spi_transfer(0,4,"\xd8\x00\x00\x00")
+				call hardware_io_port_config_direction(1,$3)        
+				
+				#start timer to poll for erase complete
+				call hardware_set_soft_timer(6000,0,1)
+			end if
+			
+			if command=1 then # erase block 1				
+				#write enable
+				call hardware_io_port_config_direction(1,$43)
+				call hardware_spi_transfer(0,1,"\x06")
+				call hardware_io_port_config_direction(1,$3)
+
+				#erase block 1 10000-3ffff
+				call hardware_io_port_config_direction(1,$43)
+				call hardware_spi_transfer(0,4,"\xd8\x01\x00\x00")
+				call hardware_io_port_config_direction(1,$3)
+				
+				#start timer to poll for erase complete
+                call hardware_set_soft_timer(6000,0,1)
+			end if
+			if command=2 then #reset dfu pointer
+				dfu_pointer=0
+				call attributes_user_write_response(curr_connection, 0)
+			end if
+			if command=3 then #boot dfu
+				call system_reset(1)
+			end if
+			if command=4 then
+			    #pull power and chip select pins up
+                call hardware_io_port_write(1,$1,$1)
+                call attributes_user_write_response(curr_connection, $0)
+            end if
+			if command>4 then#all other codes fail
+				call attributes_user_write_response(curr_connection, $80)
+			end if
+			
+			#call attributes_user_write_response(connection, 0)
+		end if
+	end if
+	if handle = ota_data then
+		#NOTE: when programming page, address can not wrap over 256 byte boundary
+		# this is handled in dfu application
+		
+		#this is write no response attribute, no need to handle response to other end
+		#TODO: handle zero length writes
+		spi_response(0:1)=2#page program command
+		
+		#flip endianness for address
+		tmp(0:4)=dfu_pointer
+		spi_response(1:1)=tmp(2:1)
+		spi_response(2:1)=tmp(1:1)
+		spi_response(3:1)=tmp(0:1)
+		
+		#enable write mode
+		#write enable
+		call hardware_io_port_config_direction(1,$43)
+		call hardware_spi_transfer(0,1,"\x06")
+		call hardware_io_port_config_direction(1,$3)
+		#write data
+		call hardware_io_port_config_direction(1,$43)
+		call hardware_spi_transfer(0,4,spi_response(0:4))
+		#send data in next transfer, leave chip select asserted
+		call hardware_spi_transfer(0,value_len,value_data(0:value_len))
+		call hardware_io_port_config_direction(1,$3)
+		
+		#it can take up to 800 us for full page to program
+		#loop couple of times for write to complete
+		
+		call hardware_io_port_config_direction(1,$43)
+		call hardware_spi_transfer(0,2,"\x05\x00")(result,channel,spi_len,spi_response(0:2))#start polling
+		a=spi_response(1:1)
+		while a&1
+			call hardware_spi_transfer(0,1,"\x00")(result,channel,spi_len,spi_response(0:1))
+			a=spi_response(0:1)
+		end while
+		call hardware_io_port_config_direction(1,$3)
+		
+		#increase offset
+		dfu_pointer=dfu_pointer+value_len
+	end if
+end
+
+
+event connection_disconnected(handle,result)
+	#in case if disconnect, return to advertisement mode
+    call gap_set_mode(gap_general_discoverable,gap_undirected_connectable)
+end
