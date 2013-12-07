@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>recipes</key>
+	<array>
+		<dict>
+			<key>name</key>
+			<string>Chocolate cake</string>
+			<key>image</key>
+			<string>choco.jpg</string>
+			<key>description</key>
+			<string>Classic chocolate cake with chocolate buttercream. Serves 8</string>
+			<key>steps</key>
+			<array>
+				<dict>
+					<key>amount</key>
+					<string>0</string>
+					<key>image</key>
+					<string>oven.jpg</string>
+					<key>description</key>
+					<string>Preheat the oven 160C (320F)</string>
+				</dict>
+				<dict>
+					<key>amount</key>
+					<string>170</string>
+					<key>image</key>
+					<string>butter.jpg</string>
+					<key>description</key>
+					<string>Add 170g of butter to a bowl</string>
+				</dict>
+				<dict>
+					<key>amount</key>
+					<string>265</string>
+					<key>image</key>
+					<string>sugar.jpg</string>
+					<key>description</key>
+					<string>Add 265g of suger to the bowl, and beat until pale and creamy</string>
+				</dict>
+				<dict>
+					<key>amount</key>
+					<string>0</string>
+					<key>image</key>
+					<string>eggs.jpg</string>
+					<key>description</key>
+					<string>Add 2 eggs and beat well</string>
+				</dict>
+			</array>
+		</dict>
+	</array>
+</dict>
+</plist>

@@ -9,7 +9,7 @@
 #import "StepsViewController.h"
 #import "PageControlViewControl.h"
 #include <string.h>
-#import "CRViewController.h"
+//#import "CRViewController.h"
 #import <QuartzCore/CAAnimation.h>
 #import <QuartzCore/CAMediaTimingFunction.h>
 
@@ -18,7 +18,7 @@
 @end
 
 @implementation StepsViewController
-@synthesize targerValue, currentValue, scrollView, pageControl, viewControllers;
+@synthesize stepLabel, targerValue, currentValue, scrollView, pageControl, viewControllers;
 @synthesize stepArray, recipeItem;
 
 
@@ -38,6 +38,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     steps = [stepArray count];
+//    NSLog(@"stepArray: %@", stepArray);
+    
     stepStatus = [[NSMutableArray alloc] init];
     
     // Initial the first remaining weight needed
@@ -50,13 +52,8 @@
         [stepStatus addObject:[NSNumber numberWithInt:0]];
     }
     self.viewControllers = controllers;
-    
-    NSLog(@"controllers: %@", controllers);
-    NSLog(@"scrollView: %@", scrollView);
-    NSLog(@"scrollView.frame: %@", scrollView.frame);
-    NSLog(@"scrollView.frame.size: %@", scrollView.frame.size);
-    NSLog(@"scrollView.frame.size.width: %f", scrollView.frame.size.width);
-    
+    [scrollView setFrame:CGRectMake(0, 44, 320, 290)];
+    [stepLabel setText:@"Step 1"];
     
     // a page is the width of the scroll view
     scrollView.pagingEnabled = YES;
@@ -69,15 +66,15 @@
     pageControl.numberOfPages = steps;
     pageControl.currentPage = 0;
     
+    NSLog(@"after, scrollView.frame.size.width: %f", scrollView.frame.size.width);
+    
     [self loadScrollViewWithPage:0];
     [self loadScrollViewWithPage:1];
-    
-    NSLog(@"after, scrollView.frame.size.width: %f", scrollView.frame.size.width);
     
     pageControlUsed = YES;
 }
 
- 
+
 
 - (void)loadScrollViewWithPage:(int)page {
     if (page < 0) return;
@@ -128,16 +125,24 @@
 //}
 
 - (IBAction)prevPage:(id)sender {
+    NSLog(@"prev");
     [self gotoPrevStep];
 }
 
 - (IBAction)nextPage:(id)sender {
+    NSLog(@"next");
     [self gotoNextStep];
+}
+
+- (IBAction)clickCancel:(id)sender {
+    [self dismissViewControllerAnimated:YES completion:nil];
+//    [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (void)gotoPrevStep {
     
     int page = pageControl.currentPage-1;
+    NSLog(@"page: %d", page);
     // load the visible page and the page on either side of it (to avoid flashes when the user starts scrolling)
     [self loadScrollViewWithPage:page - 1];
     [self loadScrollViewWithPage:page];
@@ -152,6 +157,8 @@
     
     if (page<0) return;
     
+    [stepLabel setText:[NSString stringWithFormat:@"Step %d", page+1]];
+    
     // If ..., then send data to BLE
     targerValue.text = [stepArray[page] objectForKey:@"amount"];
     NSInteger amount = (NSInteger) [stepArray[page] objectForKey:@"amount"];
@@ -164,6 +171,7 @@
 - (void)gotoNextStep {
     
     int page = pageControl.currentPage+1;
+    NSLog(@"page: %d", page);
     // load the visible page and the page on either side of it (to avoid flashes when the user starts scrolling)
     [self loadScrollViewWithPage:page - 1];
     [self loadScrollViewWithPage:page];
@@ -178,6 +186,7 @@
     
     
     if (page>=steps) return;
+    [stepLabel setText:[NSString stringWithFormat:@"Step %d", page+1]];
     
     // If ..., then send data to BLE
     targerValue.text = [stepArray[page] objectForKey:@"amount"];
@@ -188,7 +197,7 @@
 }
 
 - (void)sendDatatoBLE:(NSInteger)num {
-    NSLog(@"%d", num);
+    NSLog(@"sendDatatoBLE: %d", num);
     UInt8 s = (UInt8)num;
     NSData *data=[NSData dataWithBytes:&s length:sizeof(s)];
     [_peripheral writeValue:data forCharacteristic:alert_characteristic type:CBCharacteristicWriteWithResponse];
@@ -238,8 +247,6 @@
 
 - (void)peripheral:(CBPeripheral *)peripheral didDiscoverCharacteristicsForService:(CBService *)service error:(NSError *)error {
     
-    NSLog(@"here 1");
-    
     if(error != nil)
     {
         //TODO: handle error
@@ -247,20 +254,8 @@
         return;
     }
     
-    NSLog(@"here 2");
- 
     NSEnumerator *e = [service.characteristics objectEnumerator];
-    
-    NSLog(@"here 3");
- 
-    NSLog(@"%@", service);
-    NSLog(@"here 4");
-    
-    NSLog(@"%@", service.characteristics);
-    NSLog(@"here 5");
-    NSLog(@"%@", e);
-    NSLog(@"here 6");
-    
+
     
     for (int i=0; i<9; i++) {
         if ( (cr_characteristic = [e nextObject]) ) {
@@ -303,7 +298,7 @@
             
         }
     }
-     
+    
     
     
 }
@@ -362,42 +357,44 @@
         
     }
     else if (characteristic == acc_x_characteristic) {
-//        NSLog(@"x: %d", temp);
+        //        NSLog(@"x: %d", temp);
     }
     else if (characteristic == acc_y_characteristic) {
-//        NSLog(@"y: %d", temp);
+        //        NSLog(@"y: %d", temp);
     }
     else if (characteristic == acc_z_characteristic) {
-//        NSLog(@"z: %d", temp);
+        //        NSLog(@"z: %d", temp);
     }
     else if (characteristic == btn_play_characteristic) {
-//        NSLog(@"play: %d", temp);
+        //        NSLog(@"play: %d", temp);
     }
     else if (characteristic == btn_prev_characteristic) {
-//        NSLog(@"prev: %d", temp);
+        //        NSLog(@"prev: %d", temp);
         if (temp!=0) {
             [self gotoPrevStep];
         }
     }
     else if (characteristic == btn_next_characteristic) {
-//        NSLog(@"nex: %d", temp);
+        //        NSLog(@"nex: %d", temp);
         if (temp!=0) {
             [self gotoNextStep];
         }
     }
     else if (characteristic == pot_rollmax_characteristic) {
-        NSLog(@"pot_rollmax_characteristic");
+        
+        NSLog(@"rollMax: %d", temp);
+        //NSLog(@"pot_rollmax_characteristic");
         
         // Once receive this alert value, cut the remainTarget, and send a new one to BLE
-        remainTarget = remainTarget - temp;
-        if (remainTarget!=0) {
-            // The step hasn't finished
-            [self sendDatatoBLE:remainTarget];
-        }
-        else {
-            // The step has finished, so goto the next step
-            [self gotoNextStep];
-        }
+//        remainTarget = remainTarget - temp;
+//        if (remainTarget!=0) {
+//            // The step hasn't finished
+//            [self sendDatatoBLE:remainTarget];
+//        }
+//        else {
+//            // The step has finished, so goto the next step
+//            [self gotoNextStep];
+//        }
     }
     
 }
@@ -408,16 +405,16 @@
     {
         NSLog(@"someome");
         //handle error
-//        cr_characteristic = nil;
-//        pot_characteristic = nil;
-//        alert_characteristic = nil;
-//        acc_x_characteristic = nil;
-//        acc_y_characteristic = nil;
-//        acc_z_characteristic = nil;
-//        btn_play_characteristic = nil;
-//        btn_prev_characteristic = nil;
-//        btn_next_characteristic = nil;
-//        pot_rollmax_characteristic = nil;
+        //        cr_characteristic = nil;
+        //        pot_characteristic = nil;
+        //        alert_characteristic = nil;
+        //        acc_x_characteristic = nil;
+        //        acc_y_characteristic = nil;
+        //        acc_z_characteristic = nil;
+        //        btn_play_characteristic = nil;
+        //        btn_prev_characteristic = nil;
+        //        btn_next_characteristic = nil;
+        //        pot_rollmax_characteristic = nil;
     }
     //[_peripheral readValueForCharacteristic:characteristic];
 }
