@@ -29,17 +29,10 @@ event system_boot(major,minor,patch,build,ll_version,protocol,hw)
     call gap_set_mode(gap_general_discoverable,gap_undirected_connectable)
     #timer at every second repeating
     #call hardware_set_soft_timer(32768,1,0)
-	call hardware_set_soft_timer(1638,1,0)
+	#call hardware_set_soft_timer(1638,0,0)
+	call hardware_set_soft_timer(3276,0,0)
 
 	# Set 1_4, 1_5, 1_6 to LED output $10, $20, $40
-	#call hardware_io_port_config_direction(1, $20)
-	#call hardware_io_port_config_direction(1, $40)
-	#call hardware_io_port_config_direction(1, $80)
-	
-	#call hardware_io_port_write(1, $20, 0)
-	#call hardware_io_port_write(1, $40, 0)
-	#call hardware_io_port_write(1, $80, 0)
-	
 	call hardware_io_port_config_direction(1, $70) # (port,mask)
 	call hardware_io_port_write(1, $70, 0) # (port,mask,data)
 
@@ -62,17 +55,16 @@ event hardware_soft_timer(handle)
 	call hardware_adc_read(4,3,2) # (port,3=12bit,2=ADCC)
 	
 	# read accelerometer x,y,z from 0_5, 0_6, 0_7
-	call hardware_adc_read(5,3,2) 
-	call hardware_adc_read(6,3,2) 
-	call hardware_adc_read(7,3,2) 
-	
-	# read piezo sensor from 0_8
-	call hardware_adc_read(8,3,2) 
-	
+	#call hardware_adc_read(5,3,2) 
+	#call hardware_adc_read(6,3,2) 
+	#call hardware_adc_read(7,3,2) 
+
 	# read play,previous,next button from 1_0, 1_1, 1_2
 	call hardware_io_port_read(1,$1)(resultRead, port, playButton)
 	call hardware_io_port_read(1,$2)(resultRead, port, prevButton)
 	call hardware_io_port_read(1,$4)(resultRead, port, nextButton)
+	
+	
 	
 	# DEBOUNCING CODE (ONLY SEND WHEN STATE CHANGE)
 
@@ -106,14 +98,31 @@ event hardware_soft_timer(handle)
 		nextButtonPressed = 0
 	end if
 	
+	
+	# double tap
+	call hardware_adc_read(0,3,2) 
+	
 end
 
 event attributes_value(connection ,reason ,handle ,offset ,value_len, value)
 	# Assign remaining weight measurement to global variable
 	remainingWeight(0:1) = value(0:1)
-
-	if remainingWeight(0:1)=100
-		# light up LED
+	if remainingWeight(0:1)>100 then
+		# light up LED on port 1_4 ($10), GREEN, zero on the others
+		call hardware_io_port_write(1, $10, $10)
+		call hardware_io_port_write(1, $20, 0)
+		call hardware_io_port_write(1, $40, 0)
+	end if
+	if remainingWeight(0:1)<100 then
+		# light up LED on port 1_5 ($20), BLUE, zero on other
+		call hardware_io_port_write(1, $10, 0)
+		call hardware_io_port_write(1, $20, $20)
+		call hardware_io_port_write(1, $40, 0)
+	end if
+	if remainingWeight(0:1)<10 then
+		# light up LED on port 1_6, RED, zero on everything else
+		call hardware_io_port_write(1, $10, 0)
+		call hardware_io_port_write(1, $20, 0)
 		call hardware_io_port_write(1, $40, $40)
 	end if
 
@@ -138,7 +147,7 @@ end
 event hardware_adc_result(input,value)
 	
 	# Handle weight data
-	if (input = 4) then
+	if input=4 then
 		voltage=value/8
 		voltageAverage = (9*voltageAverage + voltage)/10
 		load = voltageAverage #(voltageAverage - voltageA) * (loadB-loadA) / (voltageB - voltageA) + loadA
@@ -151,45 +160,45 @@ event hardware_adc_result(input,value)
 		call attributes_write(xgatt_pot,0,2,weight(0:2))
 		
 		# Test LED with the load number
-		if (load>500) then
-			call hardware_io_port_write(1, $10, $10)
-		end if
-		if (load>1500) then
-			call hardware_io_port_write(1, $20, $20)
-		end if
-		if (load>2000) then
-			call hardware_io_port_write(1, $40, $40)
-		end if
-		if (load<100) then
-			call hardware_io_port_write(1, $10, 0)
-			call hardware_io_port_write(1, $20, 0)
-			call hardware_io_port_write(1, $40, 0)
-		end if
+		# if load>5 then
+			# call hardware_io_port_write(1, $10, $10)
+		# else
+			# call hardware_io_port_write(1, $10, 0)
+		# end if
 	end if
 	
 	
 	# Handle accelerometer data
-    if (input = 5) then
-		voltage=value/8
-		xVal(0:2)=voltage # 0~4096
-		call attributes_write(x_value, 0, 2, xVal(0:2))
-	end if
-	if (input = 6) then
-		voltage=value/8
-		yVal(0:2)=voltage # 0~4096
-		call attributes_write(y_value, 0, 2, yVal(0:2))
-	end if
-	if (input = 7) then
-		voltage=value/8
-		zVal(0:2)=voltage # 0~4096
-		call attributes_write(z_value, 0, 2, zVal(0:2))
-	end if
+    # if (input = 5) then
+		# voltage=value/8
+		# xVal(0:2)=voltage # 0~4096
+		# call attributes_write(x_value, 0, 2, xVal(0:2))
+	# end if
+	# if (input = 6) then
+		# voltage=value/8
+		# yVal(0:2)=voltage # 0~4096
+		# call attributes_write(y_value, 0, 2, yVal(0:2))
+	# end if
+	# if (input = 7) then
+		# voltage=value/8
+		# zVal(0:2)=voltage # 0~4096
+		# call attributes_write(z_value, 0, 2, zVal(0:2))
+	# end if
 
 	# THIS IS FOR SENDING WEIGHT TO PHONE AFTER DOUBLE TAP
-	if (input = 8) then
+	if input=0 then
+		voltage=value/8
+		weight(0:2)=voltage
+		if voltage>2860 then
+			call attributes_write(dble_tap_weight,0,2,weight(0:2))
+			call hardware_io_port_write(1, $10, $10)
+		else
+			call attributes_write(dble_tap_weight,0,2,weight(0:2))
+			call hardware_io_port_write(1, $10, 0)
+		end if
 		# Write weight to double tap weight char
-		weight(0:2)=maxLoadAverage # 0~4096
-		call attributes_write(dble_tap_weight,0,2,weight(0:2))
+		#weight(0:2)=maxLoadAverage # 0~4096
+		#call attributes_write(dble_tap_weight,0,2,weight(0:2))
 
 		# Reset all measurements to zero
 		maxLoadAverage = 0

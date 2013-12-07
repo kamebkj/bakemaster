@@ -96,7 +96,7 @@
 		  <properties notify="true" />
           <value length="2" />
       </characteristic>
-    <characteristic uuid="C3BAD76C-A2B5-4B30-B7AE-74BF35B97659" id="dble_tap_weight">
+	  <characteristic uuid="C3BAD76C-A2B5-4B30-B7AE-74BF35B97659" id="dble_tap_weight">
           <description>double tap weight</description>
       <properties notify="true" />
           <value length="2" />
