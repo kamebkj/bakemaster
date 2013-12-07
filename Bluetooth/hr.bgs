@@ -49,6 +49,10 @@ event system_boot(major,minor,patch,build,ll_version,protocol,hw)
 	loadA = 5
 	voltageB = 3146
 	loadB = 1350
+	playButtonPressed = 0
+	nextButtonPressed = 0
+	prevButtonPressed = 0
+	maxLoadAverage = 0
 end
 
 
@@ -62,6 +66,8 @@ event hardware_soft_timer(handle)
 	call hardware_adc_read(6,3,2) 
 	call hardware_adc_read(7,3,2) 
 	
+	# read piezo sensor from 0_8
+	call hardware_adc_read(8,3,2) 
 	
 	# read play,previous,next button from 1_0, 1_1, 1_2
 	call hardware_io_port_read(1,$1)(resultRead, port, playButton)
