@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7E0D87151852AFAD0045B8D7 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7E0D87141852AFAD0045B8D7 /* AVFoundation.framework */; };
+		7E0D87171852AFB80045B8D7 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7E0D87161852AFB80045B8D7 /* AudioToolbox.framework */; };
 		7E56D9E5185274C100B4E00B /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7E56D9E4185274C100B4E00B /* UIKit.framework */; };
 		7E56D9E7185274C100B4E00B /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7E56D9E6185274C100B4E00B /* Foundation.framework */; };
 		7E56D9EF185274C100B4E00B /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7E56D9ED185274C100B4E00B /* InfoPlist.strings */; };
@@ -48,6 +50,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		7E0D87141852AFAD0045B8D7 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		7E0D87161852AFB80045B8D7 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		7E56D9E1185274C100B4E00B /* Chamcha3.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Chamcha3.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7E56D9E4185274C100B4E00B /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		7E56D9E6185274C100B4E00B /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -102,6 +106,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7E0D87171852AFB80045B8D7 /* AudioToolbox.framework in Frameworks */,
+				7E0D87151852AFAD0045B8D7 /* AVFoundation.framework in Frameworks */,
 				7E56DA3B1852913900B4E00B /* CoreGraphics.framework in Frameworks */,
 				7E56DA3A1852911B00B4E00B /* QuartzCore.framework in Frameworks */,
 				7E56DA201852786500B4E00B /* CoreBluetooth.framework in Frameworks */,
@@ -134,6 +140,8 @@
 		7E56D9E3185274C100B4E00B /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				7E0D87161852AFB80045B8D7 /* AudioToolbox.framework */,
+				7E0D87141852AFAD0045B8D7 /* AVFoundation.framework */,
 				7E56DA1F1852786500B4E00B /* CoreBluetooth.framework */,
 				7E56D9E4185274C100B4E00B /* UIKit.framework */,
 				7E56D9E6185274C100B4E00B /* Foundation.framework */,
@@ -438,6 +446,7 @@
 				7E56DA06185274C100B4E00B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

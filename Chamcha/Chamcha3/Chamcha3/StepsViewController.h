@@ -43,6 +43,7 @@
 
 - (IBAction)prevPage:(id)sender;
 - (IBAction)nextPage:(id)sender;
+- (IBAction)clickPlay:(id)sender;
 - (IBAction)clickCancel:(id)sender;
 
 

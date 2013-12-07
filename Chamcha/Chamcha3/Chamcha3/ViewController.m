@@ -8,6 +8,7 @@
 
 #import "ViewController.h"
 #import "DetailViewController.h"
+#import <AVFoundation/AVFoundation.h>
 
 @interface ViewController ()
 

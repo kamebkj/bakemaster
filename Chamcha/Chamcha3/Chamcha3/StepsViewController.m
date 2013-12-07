@@ -12,6 +12,7 @@
 //#import "CRViewController.h"
 #import <QuartzCore/CAAnimation.h>
 #import <QuartzCore/CAMediaTimingFunction.h>
+#import <AVFoundation/AVFoundation.h>
 
 @interface StepsViewController ()
 
@@ -65,13 +66,14 @@
 	
     pageControl.numberOfPages = steps;
     pageControl.currentPage = 0;
-    
-    NSLog(@"after, scrollView.frame.size.width: %f", scrollView.frame.size.width);
+
     
     [self loadScrollViewWithPage:0];
     [self loadScrollViewWithPage:1];
     
     pageControlUsed = YES;
+    
+    [self speakOut:0];
 }
 
 
@@ -134,9 +136,13 @@
     [self gotoNextStep];
 }
 
+- (IBAction)clickPlay:(id)sender {
+    NSLog(@"play");
+    [self speakOut:pageControl.currentPage];
+}
+
 - (IBAction)clickCancel:(id)sender {
     [self dismissViewControllerAnimated:YES completion:nil];
-//    [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (void)gotoPrevStep {
@@ -158,6 +164,9 @@
     if (page<0) return;
     
     [stepLabel setText:[NSString stringWithFormat:@"Step %d", page+1]];
+    
+    // Voice
+    [self speakOut:page];
     
     // If ..., then send data to BLE
     targerValue.text = [stepArray[page] objectForKey:@"amount"];
@@ -188,6 +197,9 @@
     if (page>=steps) return;
     [stepLabel setText:[NSString stringWithFormat:@"Step %d", page+1]];
     
+    // Voice
+    [self speakOut:page];
+    
     // If ..., then send data to BLE
     targerValue.text = [stepArray[page] objectForKey:@"amount"];
     NSInteger amount = (NSInteger) [stepArray[page] objectForKey:@"amount"];
@@ -203,6 +215,20 @@
     [_peripheral writeValue:data forCharacteristic:alert_characteristic type:CBCharacteristicWriteWithResponse];
 }
 
+- (void)speakOut:(NSInteger)page {
+    NSString *path = [[NSBundle mainBundle] pathForResource:@"recipe" ofType:@"plist"];
+    NSDictionary *dict = [[NSDictionary alloc] initWithContentsOfFile:path];
+    NSArray *recipeArray = [dict objectForKey:@"recipes"];
+    NSDictionary *item = recipeArray[recipeItem];
+    NSArray *stepsArray = [item objectForKey:@"steps"];
+    NSDictionary *stepDict = stepsArray[page];
+    NSString *words = [stepDict objectForKey:@"description"];
+    
+    AVSpeechSynthesizer *synthesizer = [[AVSpeechSynthesizer alloc]init];
+    AVSpeechUtterance *utterance = [AVSpeechUtterance speechUtteranceWithString:words];
+    [utterance setRate:0.3f];
+    [synthesizer speakUtterance:utterance];
+}
 
 
 #pragma mark - Characteristic part
