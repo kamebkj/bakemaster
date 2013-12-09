@@ -59,8 +59,8 @@ event hardware_soft_timer(handle)
 	#call hardware_adc_read(6,3,2) 
 	#call hardware_adc_read(7,3,2) 
 
-	# read play,previous,next button from 1_0, 1_1, 1_2
-	call hardware_io_port_read(1,$1)(resultRead, port, playButton)
+	# read play,previous,next button from 1_3, 1_1, 1_2
+	call hardware_io_port_read(1,$8)(resultRead, port, playButton)
 	call hardware_io_port_read(1,$2)(resultRead, port, prevButton)
 	call hardware_io_port_read(1,$4)(resultRead, port, nextButton)
 	
@@ -69,9 +69,14 @@ event hardware_soft_timer(handle)
 	# DEBOUNCING CODE (ONLY SEND WHEN STATE CHANGE)
 
 	# playButton pressed is 1, not pressed is 0
-	if playButton = 1 & playButtonPressed = 0 then
+	#call attributes_write(play_button, 0, 2, playButton)
+	if playButton = 8 & playButtonPressed = 0 then
 		call attributes_write(play_button, 0, 2, playButton)
 		playButtonPressed = 1
+		# light up LED on port 1_4 ($10), GREEN, zero on the others
+		call hardware_io_port_write(1, $10, $10)
+		call hardware_io_port_write(1, $20, 0)
+		call hardware_io_port_write(1, $40, 0)
 	end if
 	if playButton = 0 & playButtonPressed = 1
 		call attributes_write(play_button, 0, 2, playButton)
@@ -82,6 +87,10 @@ event hardware_soft_timer(handle)
 	if prevButton = 2 & prevButtonPressed = 0 then
 		call attributes_write(prev_button, 0, 2, prevButton)
 		prevButtonPressed = 1
+		# light up LED on port 1_5 ($20), BLUE, zero on other
+		call hardware_io_port_write(1, $10, 0)
+		call hardware_io_port_write(1, $20, $20)
+		call hardware_io_port_write(1, $40, 0)
 	end if
 	if prevButton = 0 & prevButtonPressed = 1
 		call attributes_write(prev_button, 0, 2, prevButton)
@@ -92,6 +101,10 @@ event hardware_soft_timer(handle)
 	if nextButton = 4 & nextButtonPressed = 0 then
 		call attributes_write(next_button, 0, 2, nextButton)
 		nextButtonPressed = 1
+		# light up LED on port 1_6, RED, zero on everything else
+		call hardware_io_port_write(1, $10, 0)
+		call hardware_io_port_write(1, $20, 0)
+		call hardware_io_port_write(1, $40, $40)
 	end if
 	if nextButton = 0 & nextButtonPressed = 1
 		call attributes_write(next_button, 0, 2, nextButton)
