@@ -392,7 +392,11 @@
         //        NSLog(@"z: %d", temp);
     }
     else if (characteristic == btn_play_characteristic) {
-        //        NSLog(@"play: %d", temp);
+        NSLog(@"play: %d", temp);
+        if (temp!=0) {
+            [self speakOut:pageControl.currentPage];
+        }
+        
     }
     else if (characteristic == btn_prev_characteristic) {
         //        NSLog(@"prev: %d", temp);
