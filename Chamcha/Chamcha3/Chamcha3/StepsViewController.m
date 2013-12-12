@@ -19,7 +19,7 @@
 @end
 
 @implementation StepsViewController
-@synthesize stepLabel, targerValue, currentValue, scrollView, pageControl, viewControllers;
+@synthesize stepLabel, targetValue, currentValue, scrollView, pageControl, viewControllers, colorBg;
 @synthesize stepArray, recipeItem;
 
 
@@ -39,13 +39,12 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     steps = [stepArray count];
-//    NSLog(@"stepArray: %@", stepArray);
     
     stepStatus = [[NSMutableArray alloc] init];
-    
+
     // Initial the first remaining weight needed
-    remainTarget = (NSInteger) [stepArray[0] objectForKey:@"amount"];
-    targerValue.text = [stepArray[0] objectForKey:@"amount"];
+    remainTarget = [[stepArray[0] objectForKey:@"amount"] integerValue];
+    targetValue.text = [stepArray[0] objectForKey:@"amount"];
 	
     NSMutableArray *controllers = [[NSMutableArray alloc] init];
     for (unsigned i = 0; i < steps; i++) {
@@ -72,6 +71,14 @@
     [self loadScrollViewWithPage:1];
     
     pageControlUsed = YES;
+    
+    // send first step remaining weight
+//    if (stepStatus[0]==0) {
+        [colorBg setBackgroundColor:[UIColor greenColor]];
+//        [self sendDatatoBLE:remainTarget];
+//    }
+    firstLoad = true;
+    baseValue = 0;
     
     [self speakOut:0];
 }
@@ -169,11 +176,13 @@
     [self speakOut:page];
     
     // If ..., then send data to BLE
-    targerValue.text = [stepArray[page] objectForKey:@"amount"];
-    NSInteger amount = (NSInteger) [stepArray[page] objectForKey:@"amount"];
-    if (stepStatus[page]==0 && amount!=0) {
-        [self sendDatatoBLE:amount];
-    }
+    targetValue.text = [stepArray[page] objectForKey:@"amount"];
+    NSInteger amount = [[stepArray[page] objectForKey:@"amount"] integerValue];
+    remainTarget = amount;
+    [self sendDatatoBLE:amount];
+//    if (stepStatus[page]==0 && amount!=0) {
+//        [self sendDatatoBLE:amount];
+//    }
     
 }
 
@@ -201,11 +210,29 @@
     [self speakOut:page];
     
     // If ..., then send data to BLE
-    targerValue.text = [stepArray[page] objectForKey:@"amount"];
-    NSInteger amount = (NSInteger) [stepArray[page] objectForKey:@"amount"];
-    if (stepStatus[page]==0 && amount!=0) {
-        [self sendDatatoBLE:amount];
+    targetValue.text = [stepArray[page] objectForKey:@"amount"];
+    NSInteger amount = [[stepArray[page] objectForKey:@"amount"] integerValue];
+    remainTarget = amount;
+    [self sendDatatoBLE:amount];
+//    if (stepStatus[page]==0 && amount!=0) {
+//        [self sendDatatoBLE:amount];
+//    }
+}
+
+- (void)changeColor:(NSInteger)weight {
+    if (weight<remainTarget-10) {
+        [colorBg setBackgroundColor:[UIColor yellowColor]];
+        NSLog(@"%d, %d, yellow", weight, remainTarget);
     }
+    else if (weight>remainTarget+10) {
+        [colorBg setBackgroundColor:[UIColor redColor]];
+        NSLog(@"%d, %d, red", weight, remainTarget);
+    }
+    else {
+        [colorBg setBackgroundColor:[UIColor greenColor]];
+        NSLog(@"%d, %d, green", weight, remainTarget);
+    }
+    
 }
 
 - (void)sendDatatoBLE:(NSInteger)num {
@@ -355,6 +382,8 @@
                                               [CBUUID UUIDWithString:@"c3bad76c-a2b5-4b30-b7ae-74bf35b97658"],
                                               [CBUUID UUIDWithString:@"c3bad76c-a2b5-4b30-b7ae-74bf35b97659"],nil] forService:service];
     }
+    
+    
 }
 
 
@@ -378,6 +407,8 @@
     
     if (characteristic == pot_characteristic) {
         currentValue.text = [NSString stringWithFormat:@"%d\n", temp];
+        currentValue.text = [NSString stringWithFormat:@"%d", [targetValue.text integerValue]-remainTarget+temp];
+        [self changeColor:temp];
     }
     else if (characteristic == alert_characteristic) {
         
@@ -392,40 +423,46 @@
         //        NSLog(@"z: %d", temp);
     }
     else if (characteristic == btn_play_characteristic) {
-        NSLog(@"play: %d", temp);
         if (temp!=0) {
             [self speakOut:pageControl.currentPage];
         }
         
     }
     else if (characteristic == btn_prev_characteristic) {
-        //        NSLog(@"prev: %d", temp);
         if (temp!=0) {
             [self gotoPrevStep];
         }
     }
     else if (characteristic == btn_next_characteristic) {
-        //        NSLog(@"nex: %d", temp);
         if (temp!=0) {
             [self gotoNextStep];
         }
     }
     else if (characteristic == pot_rollmax_characteristic) {
+        if (temp!=0) {
+            NSLog(@"pour in: %d", temp);
+            remainTarget = remainTarget - temp;
+            //////
+            if (remainTarget<11 && remainTarget>-11) {
+                // The step has finished, so goto the next step
+                stepStatus[pageControl.currentPage] = [NSNumber numberWithInt:1];
+                //[self gotoNextStep];
+            }
+            else {
+                // The step hasn't finished
+//                currentValue.text = [NSString stringWithFormat:@"%d", [targetValue.text integerValue]-remainTarget];
+                [self sendDatatoBLE:remainTarget];
+            }
+        }
         
-        NSLog(@"rollMax: %d", temp);
-        //NSLog(@"pot_rollmax_characteristic");
-        
-        // Once receive this alert value, cut the remainTarget, and send a new one to BLE
-//        remainTarget = remainTarget - temp;
-//        if (remainTarget!=0) {
-//            // The step hasn't finished
-//            [self sendDatatoBLE:remainTarget];
-//        }
-//        else {
-//            // The step has finished, so goto the next step
-//            [self gotoNextStep];
-//        }
     }
+    
+    if (firstLoad) {
+        [self sendDatatoBLE:remainTarget];
+        firstLoad = false;
+    }
+    
+    
     
 }
 

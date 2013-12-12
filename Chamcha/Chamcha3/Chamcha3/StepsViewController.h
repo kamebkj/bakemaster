@@ -30,12 +30,18 @@
     
     CBCharacteristic *pot_rollmax_characteristic;
     
+    BOOL firstLoad;
+    NSInteger baseValue;
+    
 }
 @property (weak, nonatomic) IBOutlet UILabel *stepLabel;
-@property (weak, nonatomic) IBOutlet UITextView *currentValue;
-@property (weak, nonatomic) IBOutlet UITextView *targerValue;
+//@property (weak, nonatomic) IBOutlet UITextView *currentValue;
+//@property (weak, nonatomic) IBOutlet UITextView *targetValue;
+@property (weak, nonatomic) IBOutlet UILabel *currentValue;
+@property (weak, nonatomic) IBOutlet UILabel *targetValue;
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 @property (weak, nonatomic) IBOutlet UIPageControl *pageControl;
+@property (weak, nonatomic) IBOutlet UIView *colorBg;
 @property (nonatomic, retain) NSMutableArray *viewControllers;
 
 @property (retain, nonatomic) NSArray *stepArray;
