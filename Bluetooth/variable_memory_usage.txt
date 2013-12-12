@@ -1,4 +1,4 @@
-78
+90
 0:0	GAP_AD_FLAG_BREDR_NOT_SUPPORTED
 0:0	GAP_AD_FLAG_GENERAL_DISCOVERABLE
 0:0	GAP_AD_FLAG_LIMITED_DISCOVERABLE
@@ -100,12 +100,15 @@
 30:4	voltageB
 34:4	load
 38:4	maxLoadAverage
-42:4	resultRead
-46:4	port
-50:4	playButton
-54:4	playButtonPressed
-58:4	prevButton
-62:4	prevButtonPressed
-66:4	nextButton
-70:4	nextButtonPressed
-74:4	data
+42:4	voltageState
+46:4	difference
+50:4	overWeight
+54:4	resultRead
+58:4	port
+62:4	playButton
+66:4	playButtonPressed
+70:4	prevButton
+74:4	prevButtonPressed
+78:4	nextButton
+82:4	nextButtonPressed
+86:4	data
